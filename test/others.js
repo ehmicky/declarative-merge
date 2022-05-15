@@ -4,16 +4,16 @@ import { each } from 'test-each'
 
 each(
   [
-    { firstValue: true, secondValue: { aa: 1 } },
-    { firstValue: { aa: 1 }, secondValue: true },
-    { firstValue: false, secondValue: true },
-    { firstValue: [1], secondValue: [2] },
-    { firstValue: { aa: 1 }, secondValue: [2] },
-    { firstValue: [1], secondValue: { aa: 1 } },
+    { first: true, second: { aa: 1 } },
+    { first: { aa: 1 }, second: true },
+    { first: false, second: true },
+    { first: [1], second: [2] },
+    { first: { aa: 1 }, second: [2] },
+    { first: [1], second: { aa: 1 } },
   ],
-  ({ title }, { firstValue, secondValue }) => {
+  ({ title }, { first, second }) => {
     test(`Non-objects are kept as is | ${title}`, (t) => {
-      t.deepEqual(notDeepMerge(firstValue, secondValue), secondValue)
+      t.deepEqual(notDeepMerge(first, second), second)
     })
   },
 )

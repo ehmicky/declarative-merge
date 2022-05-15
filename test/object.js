@@ -4,23 +4,23 @@ import { each } from 'test-each'
 
 each(
   [
-    { firstValue: { aa: 1 }, secondValue: { bb: 2 }, result: { aa: 1, bb: 2 } },
+    { first: { aa: 1 }, second: { bb: 2 }, result: { aa: 1, bb: 2 } },
     {
-      firstValue: { cc: { aa: 1 } },
-      secondValue: { cc: { bb: 2 } },
+      first: { cc: { aa: 1 } },
+      second: { cc: { bb: 2 } },
       result: { cc: { aa: 1, bb: 2 } },
     },
-    { firstValue: { aa: 1 }, secondValue: { aa: 2 }, result: { aa: 2 } },
+    { first: { aa: 1 }, second: { aa: 2 }, result: { aa: 2 } },
     {
-      firstValue: { cc: { aa: 1 } },
-      secondValue: { cc: { aa: 2 } },
+      first: { cc: { aa: 1 } },
+      second: { cc: { aa: 2 } },
       result: { cc: { aa: 2 } },
     },
-    { firstValue: {}, secondValue: {}, result: {} },
+    { first: {}, second: {}, result: {} },
   ],
-  ({ title }, { firstValue, secondValue, result }) => {
+  ({ title }, { first, second, result }) => {
     test(`Objects are deeply merged | ${title}`, (t) => {
-      t.deepEqual(notDeepMerge(firstValue, secondValue), result)
+      t.deepEqual(notDeepMerge(first, second), result)
     })
   },
 )

@@ -14,24 +14,24 @@ const nonEnumObj = getNonEnumObj()
 // This also test that both arguments' plain objects are deeply cloned
 each(
   [
-    { firstValue: {}, secondValue: { aa: nonEnumObj } },
-    { firstValue: { aa: nonEnumObj }, secondValue: {} },
+    { first: {}, second: { aa: nonEnumObj } },
+    { first: { aa: nonEnumObj }, second: {} },
   ],
-  ({ title }, { firstValue, secondValue }) => {
+  ({ title }, { first, second }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {
-      t.false('nonEnum' in notDeepMerge(firstValue, secondValue).aa)
+      t.false('nonEnum' in notDeepMerge(first, second).aa)
     })
   },
 )
 
 each(
   [
-    { firstValue: { aa: 1, nonEnum: 2 }, secondValue: nonEnumObj },
-    { firstValue: nonEnumObj, secondValue: { aa: 1, nonEnum: 2 } },
+    { first: { aa: 1, nonEnum: 2 }, second: nonEnumObj },
+    { first: nonEnumObj, second: { aa: 1, nonEnum: 2 } },
   ],
-  ({ title }, { firstValue, secondValue }) => {
+  ({ title }, { first, second }) => {
     test(`Non-enumerable properties are ignored even if overridden | ${title}`, (t) => {
-      t.is(notDeepMerge(firstValue, secondValue).nonEnum, 2)
+      t.is(notDeepMerge(first, second).nonEnum, 2)
     })
   },
 )
