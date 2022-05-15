@@ -22,6 +22,12 @@ each(
       result: { dd: 1, ee: 2 },
     },
     {
+      first: {},
+      second: { cc: { bb: 2, _merge: 'delete' }, ee: 2 },
+      result: { ee: 2 },
+    },
+    { first: { _merge: 'delete' }, second: {}, result: { _merge: 'delete' } },
+    {
       first: { aa: 1 },
       second: { bb: { _merge: 'deep' }, _merge: 'delete' },
       result: undefined,
