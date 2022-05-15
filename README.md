@@ -4,9 +4,13 @@
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-4cc61e.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-4cc61e.svg?logo=medium)](https://medium.com/@ehmicky)
 
-Merge objects/arrays [deeply](#deep-merge), shallowly, or both.
+Merge:
 
-Work in progress!
+- Objects [deeply](#deep-merge), [shallowly](#shallow-merge), or
+  [both](#nesting)
+- Arrays: items can be [updated](#update), [merged](#merge), [added](#add),
+  [inserted](#insert), [appended](#append), [prepended](#prepend) or
+  [deleted](#delete-1)
 
 # Examples
 
