@@ -14,7 +14,7 @@ export const deepMergeObjects = function (
 ) {
   const newObject = {}
 
-  if (!currentMerge) {
+  if (currentMerge) {
     setFirstProps(firstObject, secondObject, newObject, mergeValues)
   }
 
@@ -23,7 +23,7 @@ export const deepMergeObjects = function (
 }
 
 // All properties from the `firstObject` not in the `secondObject` are kept.
-// If `_merge` is `true`, this is skipped.
+// If `_merge` is "none", this is skipped.
 // Properties from the `firstObject` that are in the `secondObject` are still
 // set, even though they will be overridden, to keep the keys order.
 //  - However, they are not cloned, as a performance optimization since they

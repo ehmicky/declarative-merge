@@ -1,12 +1,9 @@
 import { Updates } from 'set-array'
 
-type MergeValue = boolean | null
+type MergeValue = 'deep' | 'shallow' | 'none'
 
 /**
- * Modifies the merge mode. Can be:
- *  - `false` (default): deep merge
- *  - `null`: shallow merge
- *  - `true`: no merge
+ * Modifies the merge mode. Can be `"deep"` (default), `"shallow"` or `"none"`.
  */
 type MergeAttribute<T> = T extends { _merge?: infer U }
   ? { _merge?: MergeValue | U }

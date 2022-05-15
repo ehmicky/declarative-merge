@@ -1,7 +1,7 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
-import { parseMergeFlag } from './merge.js'
+import { DEFAULT_MERGE, parseMergeFlag } from './merge.js'
 import { deepMergeObjects, deepCloneObject } from './object.js'
 
 // Merge objects deeply, shallowly, or both.
@@ -14,9 +14,9 @@ import { deepMergeObjects, deepCloneObject } from './object.js'
 // The merge mode can be specified on any object in the second argument with a
 // `_merge` property:
 //  - Possible values:
-//     - `false` (def): deep merge
-//     - `null`: shallow merge
-//     - `true`: no merge
+//     - "deep" (def): deep merge
+//     - "shallow": shallow merge
+//     - "none": no merge
 //  - Children can override that property, which is convenient when nesting
 //    objects
 // If the first argument is an array and the second argument is a patch object
@@ -30,7 +30,7 @@ import { deepMergeObjects, deepCloneObject } from './object.js'
 //  - If the first argument might use those formats, `partial-merge` should be
 //    applied to it first, using an empty object as first argument.
 export default function partialMerge(firstValue, secondValue) {
-  return mergeValues(firstValue, secondValue, false)
+  return mergeValues(firstValue, secondValue, DEFAULT_MERGE)
 }
 
 // This function is called recursively, i.e. it is passed down as argument
