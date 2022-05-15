@@ -59,12 +59,14 @@ const patchArray = function (array, updates, childSet) {
 
 const parseSetFlag = function (secondObject, currentSet) {
   // eslint-disable-next-line no-underscore-dangle
-  if (typeof secondObject._set !== 'boolean') {
+  if (typeof secondObject._set !== 'boolean' && secondObject._set !== null) {
     return { currentSet, childSet: currentSet, secondObject }
   }
 
   const { _set: setFlag, ...secondObjectA } = secondObject
-  return { currentSet: setFlag, childSet: setFlag, secondObject: secondObjectA }
+  return setFlag === null
+    ? { currentSet: false, childSet: true, secondObject: secondObjectA }
+    : { currentSet: setFlag, childSet: setFlag, secondObject: secondObjectA }
 }
 
 // eslint-disable-next-line max-params
