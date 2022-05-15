@@ -49,7 +49,8 @@ Or a network "patch" request.
 PATCH /pets/0
 ```
 
-```hjson
+<!-- prettier-ignore -->
+```json5
 {
   // Deep merge
   "capabilities": { "play": true },
