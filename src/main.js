@@ -8,6 +8,7 @@ import { set as setArray, test as isArrayPatch } from 'set-array'
 // not cloned.
 // If the second argument is an object with a property `_set: true`, the first
 // argument is overridden instead of being merged to.
+//  - Children can change this property
 // If the first argument is an array and the second argument is a patch object
 // (like `{ 1: 'a', 3: 'f' }`, or an empty object), the array is patched.
 // `_set` and patch objects are only allowed in the second argument:
@@ -20,52 +21,49 @@ export default function partialMerge(firstValue, secondValue) {
   return mergeValues(firstValue, secondValue, false)
 }
 
-// eslint-disable-next-line complexity
-const mergeValues = function (firstValue, secondValue, parentSet) {
+const mergeValues = function (firstValue, secondValue, setFlag) {
   if (!isPlainObj(secondValue)) {
     return secondValue
   }
 
   if (shouldPatchArray(firstValue, secondValue)) {
-    return patchArray(firstValue, secondValue, parentSet)
+    return patchArray(firstValue, secondValue, setFlag)
   }
 
-  const { set, secondObject } = parseSet(secondValue)
-
-  if (set) {
-    return deepCloneObject(secondObject, parentSet)
-  }
+  const { setFlag: setFlagA, secondObject } = parseSetFlag(secondValue, setFlag)
 
   if (!isPlainObj(firstValue)) {
-    return deepCloneObject(secondObject, parentSet)
+    return deepCloneObject(secondObject, setFlagA)
   }
 
-  return deepMergeObjects(firstValue, secondObject, parentSet)
+  return deepMergeObjects(firstValue, secondObject, setFlagA)
 }
 
 const shouldPatchArray = function (firstValue, secondObject) {
   return Array.isArray(firstValue) && isArrayPatch(secondObject)
 }
 
-const patchArray = function (array, updates, parentSet) {
+const patchArray = function (array, updates, setFlag) {
   return setArray(array, updates, {
     merge(firstValue, secondValue) {
-      return mergeValues(firstValue, secondValue, parentSet)
+      return mergeValues(firstValue, secondValue, setFlag)
     },
   })
 }
 
-const parseSet = function (secondObject) {
+const parseSetFlag = function (secondObject, setFlag) {
   // eslint-disable-next-line no-underscore-dangle
   if (typeof secondObject._set !== 'boolean') {
-    return { secondObject }
+    return { setFlag, secondObject }
   }
 
-  const { _set: set, ...secondObjectA } = secondObject
-  return { set, secondObject: secondObjectA }
+  const { _set: setFlagA, ...secondObjectA } = secondObject
+  return { setFlag: setFlagA, secondObject: secondObjectA }
 }
 
-const deepMergeObjects = function (firstObject, secondObject, parentSet) {
+// TODO: split function into two
+// eslint-disable-next-line max-statements, complexity
+const deepMergeObjects = function (firstObject, secondObject, setFlag) {
   const newObject = {}
 
   // eslint-disable-next-line fp/no-loops
@@ -73,7 +71,11 @@ const deepMergeObjects = function (firstObject, secondObject, parentSet) {
     const firstProp = getEnumValue(firstObject, secondKey)
     const secondProp = secondObject[secondKey]
     // eslint-disable-next-line fp/no-mutation
-    newObject[secondKey] = mergeValues(firstProp, secondProp, parentSet)
+    newObject[secondKey] = mergeValues(firstProp, secondProp, setFlag)
+  }
+
+  if (setFlag) {
+    return newObject
   }
 
   // eslint-disable-next-line fp/no-loops
@@ -81,7 +83,7 @@ const deepMergeObjects = function (firstObject, secondObject, parentSet) {
     // eslint-disable-next-line max-depth
     if (!isEnum.call(newObject, firstKey)) {
       // eslint-disable-next-line fp/no-mutation
-      newObject[firstKey] = deepClone(firstObject[firstKey], parentSet)
+      newObject[firstKey] = deepClone(firstObject[firstKey], setFlag)
     }
   }
 
@@ -102,10 +104,10 @@ const getEnumValue = function (object, key) {
   return isEnum.call(object, key) ? object[key] : undefined
 }
 
-const deepClone = function (value, parentSet) {
-  return isPlainObj(value) ? deepCloneObject(value, parentSet) : value
+const deepClone = function (value, setFlag) {
+  return isPlainObj(value) ? deepCloneObject(value, setFlag) : value
 }
 
-const deepCloneObject = function (object, parentSet) {
-  return deepMergeObjects({}, object, parentSet)
+const deepCloneObject = function (object, setFlag) {
+  return deepMergeObjects({}, object, setFlag)
 }
