@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import test from 'ava'
 import partialMerge from 'partial-merge'
 import { each } from 'test-each'
@@ -62,6 +63,11 @@ each(
     {
       first: { cc: [{ aa: 1 }] },
       second: { cc: { 0: { bb: 2 } }, _merge: 'none' },
+      result: { cc: [{ bb: 2 }] },
+    },
+    {
+      first: { cc: [{ aa: 1 }] },
+      second: { cc: { 0: { bb: 2 }, _merge: undefined }, _merge: 'none' },
       result: { cc: [{ bb: 2 }] },
     },
     {
