@@ -2,36 +2,36 @@ import test from 'ava'
 import notDeepMerge from 'not-deep-merge'
 import { each } from 'test-each'
 
-const getNonEnumObj = function () {
+const getNotEnumObj = function () {
   const object = { enum: 1 }
   // eslint-disable-next-line fp/no-mutating-methods
-  Object.defineProperty(object, 'nonEnum', { value: 1, enumerable: false })
+  Object.defineProperty(object, 'notEnum', { value: 1, enumerable: false })
   return object
 }
 
-const nonEnumObj = getNonEnumObj()
+const notEnumObj = getNotEnumObj()
 
 // This also test that both arguments' plain objects are deeply cloned
 each(
   [
-    { first: {}, second: { aa: nonEnumObj } },
-    { first: { aa: nonEnumObj }, second: {} },
+    { first: {}, second: { aa: notEnumObj } },
+    { first: { aa: notEnumObj }, second: {} },
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {
-      t.false('nonEnum' in notDeepMerge(first, second).aa)
+      t.false('notEnum' in notDeepMerge(first, second).aa)
     })
   },
 )
 
 each(
   [
-    { first: { aa: 1, nonEnum: 2 }, second: nonEnumObj },
-    { first: nonEnumObj, second: { aa: 1, nonEnum: 2 } },
+    { first: { aa: 1, notEnum: 2 }, second: notEnumObj },
+    { first: notEnumObj, second: { aa: 1, notEnum: 2 } },
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are ignored even if overridden | ${title}`, (t) => {
-      t.is(notDeepMerge(first, second).nonEnum, 2)
+      t.is(notDeepMerge(first, second).notEnum, 2)
     })
   },
 )
