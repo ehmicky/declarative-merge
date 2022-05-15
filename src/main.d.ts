@@ -10,12 +10,12 @@ type MergeMode = 'deep' | 'shallow' | 'none'
  *  - Objects can modify the merge mode using a `_merge` property
  *  - Arrays can be "updates" objects instead like { [index]: item, ... }
  */
-type SecondValue<T, U extends keyof any> = T extends (infer ArrayItemType)[]
-  ? SecondValue<ArrayItemType, U>[] | Updates<SecondValue<ArrayItemType, U>>
+type SecondValue<T, KeyOpt extends keyof any> = T extends (infer ArrayItem)[]
+  ? SecondValue<ArrayItem, KeyOpt>[] | Updates<SecondValue<ArrayItem, KeyOpt>>
   : T extends object
-  ? { [V in Exclude<keyof T, U>]?: SecondValue<T[V], U> } & {
-      [W in U]?: MergeMode
-    }
+  ? {
+      [Prop in Exclude<keyof T, KeyOpt>]?: SecondValue<T[Prop], KeyOpt>
+    } & { [KeyProp in KeyOpt]?: MergeMode }
   : T
 
 type Key = string | symbol
@@ -27,13 +27,13 @@ type DefaultKey = '_merge'
  * ```js
  * ```
  */
-export default function partialMerge<T, U extends Key = DefaultKey>(
+export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
   firstValue: T,
-  secondValue: SecondValue<T, U extends never ? U : U>,
+  secondValue: SecondValue<T, KeyOpt extends never ? KeyOpt : KeyOpt>,
   /**
    * Customize the name of the property used to change the merge mode.
    *
    * @default "_merge"
    */
-  options?: { key?: U },
+  options?: { key?: KeyOpt },
 ): T
