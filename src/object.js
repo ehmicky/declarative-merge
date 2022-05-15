@@ -2,6 +2,7 @@ import isPlainObj from 'is-plain-obj'
 
 import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
 
+// Merge two objects deeply.
 // Pass positional arguments for performance reasons.
 // eslint-disable-next-line max-params
 export const deepMergeObjects = function (
@@ -14,15 +15,17 @@ export const deepMergeObjects = function (
   const newObject = {}
 
   if (!currentSet) {
-    setFirstValues(firstObject, secondObject, newObject, mergeValues)
+    setFirstProps(firstObject, secondObject, newObject, mergeValues)
   }
 
-  setSecondValues(firstObject, secondObject, newObject, childSet, mergeValues)
+  setSecondProps(firstObject, secondObject, newObject, childSet, mergeValues)
   return newObject
 }
 
+// All properties from the `firstObject` not in the `secondObject` are kept.
+// If `_set` is `true`, this is skipped.
 // eslint-disable-next-line max-params
-const setFirstValues = function (
+const setFirstProps = function (
   firstObject,
   secondObject,
   newObject,
@@ -38,8 +41,9 @@ const setFirstValues = function (
   }
 }
 
+// Properties from `secondObject` are merged to the `firstObject`, recursively
 // eslint-disable-next-line max-params
-const setSecondValues = function (
+const setSecondProps = function (
   firstObject,
   secondObject,
   newObject,
@@ -59,6 +63,12 @@ const deepClone = function (value, mergeValues) {
   return isPlainObj(value) ? deepCloneObject(value, mergeValues) : value
 }
 
+// Before setting values, we deep clone them:
+//  - This ensures the original argument won't be modified by the user
+//  - Deep cloning might be expected from a deep merge by some users
+//  - This ensures the algorithm is performed recursively, so that:
+//     - `_set` property are removed
+//     - Non-enumerable and inherited properties are removed
 export const deepCloneObject = function (object, mergeValues) {
   return deepMergeObjects({}, object, true, true, mergeValues)
 }
