@@ -9,6 +9,7 @@ import { set as setArray, test as isArrayPatch } from 'set-array'
 // If the second argument is an object with a property `_set: true`, the first
 // argument is overridden instead of being merged to.
 //  - Children can change this property. This allows nesting objects.
+//  - `_set: null` can be used to merge shallowly instead
 // If the first argument is an array and the second argument is a patch object
 // (like `{ 1: 'a', 3: 'f' }`, or an empty object), the array is patched.
 //  - It is patched even if `_set` is `true`
