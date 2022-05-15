@@ -12,9 +12,50 @@ Merge:
   [inserted](#insert), [appended](#append), [prepended](#prepend) or
   [deleted](#delete-1)
 
-Designed for declarative use cases (configuration files, network requests, etc.)
-where merging is needed but objects/arrays manipulation in JavaScript is not
-available.
+# Use cases
+
+This was designed for declarative use cases where merging is needed but
+objects/arrays manipulation in JavaScript is not available.
+
+For example, a library allowing shared configuration file to be extended.
+
+```yml
+extend: my-shared-config
+
+# Deep merge
+log:
+  verbosity: silent
+  # Delete properties
+  output:
+    _merge: delete
+  # Shallow merge
+  provider:
+    _merge: shallow
+    name: redis
+    type: local
+
+rules:
+  # Update arrays deeply
+  1:
+    level: silent
+  # Append arrays
+  '-0':
+    name: appendedRule
+```
+
+Or a network "patch" request.
+
+```http
+PATCH /pets/0
+```
+
+```json
+{
+  "capabilities": { "play": true },
+  "title": { "name": "felix", "_merge": "shallow" },
+  "toys": { "-0": "newToy" }
+}
+```
 
 # Examples
 
