@@ -45,6 +45,12 @@ partialMerge(
   { a: 10, b: { e: 20, _merge: 'set' } },
 )
 // { a: 10, b: { e: 20 }, d: 3 }
+
+partialMerge(
+  { a: 1, b: { c: 2 }, d: 3 },
+  { a: 10, b: { e: 20, _merge: 'deep' }, _merge: 'set' },
+)
+// { a: 10, b: { c: 2, e: 20 } }
 ```
 
 ### Delete
@@ -59,9 +65,12 @@ partialMerge(
 
 ## Arrays
 
-### Patch
+### Update
 
 ```js
+// By default, arrays override each other
+partialMerge({ one: ['a', 'b', 'c'] }, { one: ['X', 'Y'] }) // { one: ['X', 'Y'] }
+
 // Arrays can be updated using an object where the keys are the array indices,
 // before any updates.
 partialMerge({ one: ['a', 'b', 'c'], two: 2 }, { one: { 1: 'X' }, three: 3 })
@@ -153,6 +162,29 @@ not `require()`.
 `options` [`Options`](#options)\
 _Return value_: `any`
 
+Merge `firstValue` and `secondValue` deeply.
+
+### Merge mode
+
+Any object can change the merge mode using a `_merge` property with value
+[`"deep"`](#deep-merge) (default), [`"shallow"`](#shallow-merge),
+[`"set"`](#no-merge) or [`"delete"`](#delete).
+
+Arrays [can be merged using objects](#arrays) where the keys are the array
+indices.
+
+The `_merge` property and array updates objects can only be used in
+`secondValue`. They are left as is in `firstValue`.
+
+### Cloning
+
+The arguments are not modified. Plain objects and arrays are cloned.
+
+[Inherited](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
+and
+[non-enumerable properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties)
+are ignored.
+
 ### Options
 
 Options are an optional object.
@@ -171,6 +203,11 @@ partialMerge({ a: 1 }, { b: 2, _mergeMode: 'set' }, { key: '_mergeMode' }) // { 
 const mergeMode = Symbol('mergeMode')
 partialMerge({ a: 1 }, { b: 2, [mergeMode]: 'set' }, { key: mergeMode }) // { b: 2 }
 ```
+
+# Related projects
+
+- [`set-array`](https://github.com/ehmicky/set-array): underlying module to
+  [merge arrays](#arrays)
 
 # Support
 
