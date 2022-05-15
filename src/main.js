@@ -1,5 +1,6 @@
 import isPlainObj from 'is-plain-obj'
-import { set as setArray, test as isArrayPatch } from 'set-array'
+
+import { shouldPatchArray, patchArray } from './array.js'
 
 // Merge objects deeply, shallowly, or both.
 // Properties that are:
@@ -42,7 +43,7 @@ const mergeValues = function (firstValue, secondValue, currentSet) {
   } = parseSetFlag(secondValue, currentSet)
 
   if (shouldPatchArray(firstValue, secondObject)) {
-    return patchArray(firstValue, secondObject, childSet)
+    return patchArray(firstValue, secondObject, childSet, mergeValues)
   }
 
   if (!isPlainObj(firstValue)) {
@@ -50,18 +51,6 @@ const mergeValues = function (firstValue, secondValue, currentSet) {
   }
 
   return deepMergeObjects(firstValue, secondObject, currentSetA, childSet)
-}
-
-const shouldPatchArray = function (firstValue, secondObject) {
-  return Array.isArray(firstValue) && isArrayPatch(secondObject)
-}
-
-const patchArray = function (array, updates, childSet) {
-  return setArray(array, updates, {
-    merge(firstValue, secondValue) {
-      return mergeValues(firstValue, secondValue, childSet)
-    },
-  })
 }
 
 const parseSetFlag = function (secondObject, currentSet) {
