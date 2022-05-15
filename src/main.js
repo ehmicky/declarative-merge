@@ -28,11 +28,11 @@ const mergeValues = function (firstValue, secondValue, setFlag) {
     return secondValue
   }
 
-  if (shouldPatchArray(firstValue, secondValue)) {
-    return patchArray(firstValue, secondValue, setFlag)
-  }
-
   const { setFlag: setFlagA, secondObject } = parseSetFlag(secondValue, setFlag)
+
+  if (shouldPatchArray(firstValue, secondObject)) {
+    return patchArray(firstValue, secondObject, setFlagA)
+  }
 
   if (!isPlainObj(firstValue)) {
     return deepCloneObject(secondObject, setFlagA)

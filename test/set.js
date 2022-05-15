@@ -60,11 +60,10 @@ each(
       second: { cc: { 0: { bb: 2 } }, _set: false },
       result: { cc: [{ aa: 1, bb: 2 }] },
     },
-    // TODO: allow both updates + _set
     {
       first: { cc: [{ aa: 1 }] },
       second: { cc: { 0: { bb: 2 }, _set: true } },
-      result: { cc: { 0: { bb: 2 } } },
+      result: { cc: [{ bb: 2 }] },
     },
     {
       first: { cc: [{ aa: 1 }, { aa: 1 }] },
