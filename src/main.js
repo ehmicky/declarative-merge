@@ -1,7 +1,7 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
-import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
+import { deepMergeObjects, deepCloneObject } from './object.js'
 import { parseSetFlag } from './set.js'
 
 // Merge objects deeply, shallowly, or both.
@@ -49,60 +49,14 @@ const mergeValues = function (firstValue, secondValue, currentSet) {
   }
 
   if (!isPlainObj(firstValue)) {
-    return deepCloneObject(secondObject)
+    return deepCloneObject(secondObject, mergeValues)
   }
 
-  return deepMergeObjects(firstValue, secondObject, currentSetA, childSet)
-}
-
-// eslint-disable-next-line max-params
-const deepMergeObjects = function (
-  firstObject,
-  secondObject,
-  currentSet,
-  childSet,
-) {
-  const newObject = {}
-
-  if (!currentSet) {
-    setFirstValues(firstObject, secondObject, newObject)
-  }
-
-  setSecondValues(firstObject, secondObject, newObject, childSet)
-  return newObject
-}
-
-const setFirstValues = function (firstObject, secondObject, newObject) {
-  // eslint-disable-next-line fp/no-loops
-  for (const firstKey of getEnumKeys(firstObject)) {
-    // eslint-disable-next-line max-depth
-    if (!isEnum(secondObject, firstKey)) {
-      // eslint-disable-next-line fp/no-mutation, no-param-reassign
-      newObject[firstKey] = deepClone(firstObject[firstKey])
-    }
-  }
-}
-
-// eslint-disable-next-line max-params
-const setSecondValues = function (
-  firstObject,
-  secondObject,
-  newObject,
-  childSet,
-) {
-  // eslint-disable-next-line fp/no-loops
-  for (const secondKey of getEnumKeys(secondObject)) {
-    const firstProp = getEnumValue(firstObject, secondKey)
-    const secondProp = secondObject[secondKey]
-    // eslint-disable-next-line fp/no-mutation, no-param-reassign
-    newObject[secondKey] = mergeValues(firstProp, secondProp, childSet)
-  }
-}
-
-const deepClone = function (value) {
-  return isPlainObj(value) ? deepCloneObject(value) : value
-}
-
-const deepCloneObject = function (object) {
-  return deepMergeObjects({}, object, true, true)
+  return deepMergeObjects(
+    firstValue,
+    secondObject,
+    currentSetA,
+    childSet,
+    mergeValues,
+  )
 }
