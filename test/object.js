@@ -17,6 +17,16 @@ each(
       result: { cc: { aa: 2 } },
     },
     { first: {}, second: {}, result: {} },
+    {
+      first: { [Symbol.for('aa')]: 1 },
+      second: { [Symbol.for('bb')]: 2 },
+      result: { [Symbol.for('aa')]: 1, [Symbol.for('bb')]: 2 },
+    },
+    {
+      first: { [Symbol.for('cc')]: { aa: 1 } },
+      second: { [Symbol.for('cc')]: { bb: 2 } },
+      result: { [Symbol.for('cc')]: { aa: 1, bb: 2 } },
+    },
   ],
   ({ title }, { first, second, result }) => {
     test(`Objects are deeply merged | ${title}`, (t) => {
