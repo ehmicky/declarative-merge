@@ -20,6 +20,15 @@ type SecondValue<T> = T extends (infer ArrayItemType)[]
   ? { [U in Exclude<keyof T, '_merge'>]?: SecondValue<T[U]> } & MergeAttribute
   : T
 
+interface Options {
+  /**
+   * Customize the name of the property used to change the merge mode.
+   *
+   * @default "_merge"
+   */
+  key?: string | symbol
+}
+
 /**
  *
  * @example
@@ -29,4 +38,5 @@ type SecondValue<T> = T extends (infer ArrayItemType)[]
 export default function partialMerge<T>(
   firstValue: T,
   secondValue: SecondValue<T>,
+  options?: Options,
 ): T
