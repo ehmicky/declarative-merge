@@ -39,7 +39,7 @@ const mergeValues = function (firstValue, secondValue, currentSet) {
   }
 
   if (!isPlainObj(firstValue)) {
-    return deepCloneObject(secondObject, childSet)
+    return deepCloneObject(secondObject)
   }
 
   return deepMergeObjects(firstValue, secondObject, currentSetA, childSet)
@@ -77,7 +77,7 @@ const deepMergeObjects = function (
   childSet,
 ) {
   const newObject = {}
-  setFirstValues(firstObject, secondObject, newObject, currentSet, childSet)
+  setFirstValues(firstObject, secondObject, newObject, currentSet)
   setSecondValues(firstObject, secondObject, newObject, childSet)
   return newObject
 }
@@ -88,7 +88,6 @@ const setFirstValues = function (
   secondObject,
   newObject,
   currentSet,
-  childSet,
 ) {
   if (currentSet) {
     return
@@ -99,7 +98,7 @@ const setFirstValues = function (
     // eslint-disable-next-line max-depth
     if (!isEnum.call(secondObject, firstKey)) {
       // eslint-disable-next-line fp/no-mutation, no-param-reassign
-      newObject[firstKey] = deepClone(firstObject[firstKey], childSet)
+      newObject[firstKey] = deepClone(firstObject[firstKey])
     }
   }
 }
@@ -134,10 +133,10 @@ const getEnumValue = function (object, key) {
   return isEnum.call(object, key) ? object[key] : undefined
 }
 
-const deepClone = function (value, childSet) {
-  return isPlainObj(value) ? deepCloneObject(value, childSet) : value
+const deepClone = function (value) {
+  return isPlainObj(value) ? deepCloneObject(value) : value
 }
 
-const deepCloneObject = function (object, childSet) {
-  return deepMergeObjects({}, object, true, childSet)
+const deepCloneObject = function (object) {
+  return deepMergeObjects({}, object, true, true)
 }
