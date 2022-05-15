@@ -32,6 +32,16 @@ each(
       result: { aa: 1, bb: 2 },
     },
     {
+      first: { aa: 1, _merge: 3 },
+      second: { bb: 2 },
+      result: { aa: 1, bb: 2, _merge: 3 },
+    },
+    {
+      first: { aa: 1, _merge: 3 },
+      second: { bb: 2, _merge: 'deep' },
+      result: { aa: 1, bb: 2, _merge: 3 },
+    },
+    {
       first: { cc: { dd: { aa: 1 }, ff: 1 }, ee: 1 },
       second: {
         cc: { dd: { bb: 2, _merge: 'none' }, _merge: 'deep' },

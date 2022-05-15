@@ -5,9 +5,9 @@ type MergeValue = 'deep' | 'shallow' | 'none'
 /**
  * Modifies the merge mode. Can be `"deep"` (default), `"shallow"` or `"none"`.
  */
-type MergeAttribute<T> = T extends { _merge?: infer U }
-  ? { _merge?: MergeValue | U }
-  : { _merge?: MergeValue }
+interface MergeAttribute {
+  _merge?: MergeValue
+}
 
 /**
  * The second value has the same shape as the first except:
@@ -17,9 +17,7 @@ type MergeAttribute<T> = T extends { _merge?: infer U }
 type SecondValue<T> = T extends (infer ArrayItemType)[]
   ? SecondValue<ArrayItemType>[] | Updates<SecondValue<ArrayItemType>>
   : T extends object
-  ? {
-      [U in Exclude<keyof T, '_merge'>]?: SecondValue<T[U]>
-    } & MergeAttribute<T>
+  ? { [U in Exclude<keyof T, '_merge'>]?: SecondValue<T[U]> } & MergeAttribute
   : T
 
 /**

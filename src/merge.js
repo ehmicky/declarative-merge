@@ -1,4 +1,5 @@
-// Parse the `_merge` flag that objects can specify to override the merge mode.
+// Parse the `_merge` flag that objects in the second argument can specify to
+// override the merge mode.
 // Allowed values:
 //  - "deep" (default): deep merge
 //  - "shallow": shallow merge
@@ -7,8 +8,8 @@
 //  - Therefore, we distinguish between the current object's `_merge` and its
 //    children
 // The `_merge` flag is removed from the object before processing it.
-//  - Including if it has an invalid value. This discourages using data that
-//    have `_merge` properties, and prevent injections.
+// Other values are ignored.
+// `_merge` properties in the first value are kept as is, and cannot be set.
 export const parseMergeFlag = function (secondObject, currentMerge) {
   if (!('_merge' in secondObject)) {
     return { currentMerge, childMerge: currentMerge, secondObject }
