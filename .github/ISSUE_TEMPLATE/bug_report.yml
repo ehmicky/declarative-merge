@@ -47,7 +47,7 @@ body:
       description: |
         Enter the following command in a terminal and copy/paste its output:
         ```bash
-        npx envinfo --system --binaries --browsers --npmPackages not-deep-merge
+        npx envinfo --system --binaries --browsers --npmPackages partial-merge
         ```
     validations:
       required: true

@@ -1,5 +1,5 @@
 import test from 'ava'
-import notDeepMerge from 'not-deep-merge'
+import partialMerge from 'partial-merge'
 import { each } from 'test-each'
 
 each(
@@ -30,7 +30,7 @@ each(
   ],
   ({ title }, { first, second, result }) => {
     test(`Objects are deeply merged | ${title}`, (t) => {
-      t.deepEqual(notDeepMerge(first, second), result)
+      t.deepEqual(partialMerge(first, second), result)
     })
   },
 )

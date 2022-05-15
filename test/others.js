@@ -1,5 +1,5 @@
 import test from 'ava'
-import notDeepMerge from 'not-deep-merge'
+import partialMerge from 'partial-merge'
 import { each } from 'test-each'
 
 each(
@@ -12,7 +12,7 @@ each(
   ],
   ({ title }, { first, second }) => {
     test(`Non-objects are kept as is | ${title}`, (t) => {
-      t.deepEqual(notDeepMerge(first, second), second)
+      t.deepEqual(partialMerge(first, second), second)
     })
   },
 )

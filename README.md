@@ -1,6 +1,6 @@
-[![Codecov](https://img.shields.io/codecov/c/github/ehmicky/not-deep-merge.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/not-deep-merge)
-[![Build](https://github.com/ehmicky/not-deep-merge/workflows/Build/badge.svg)](https://github.com/ehmicky/not-deep-merge/actions)
-[![Node](https://img.shields.io/node/v/not-deep-merge.svg?logo=node.js)](https://www.npmjs.com/package/not-deep-merge)
+[![Codecov](https://img.shields.io/codecov/c/github/ehmicky/partial-merge.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/partial-merge)
+[![Build](https://github.com/ehmicky/partial-merge/workflows/Build/badge.svg)](https://github.com/ehmicky/partial-merge/actions)
+[![Node](https://img.shields.io/node/v/partial-merge.svg?logo=node.js)](https://www.npmjs.com/package/partial-merge)
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-4cc61e.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-4cc61e.svg?logo=medium)](https://medium.com/@ehmicky)
 
@@ -17,7 +17,7 @@ Work in progress!
 # Install
 
 ```bash
-npm install not-deep-merge
+npm install partial-merge
 ```
 
 This package is an ES module and must be loaded using
@@ -26,7 +26,7 @@ not `require()`.
 
 # API
 
-## notDeepMerge(firstValue, secondValue, options?)
+## partialMerge(firstValue, secondValue, options?)
 
 `firstValue` `any`\
 `secondValue` `any`\
@@ -66,6 +66,6 @@ If you would like to help us fix a bug or add a new feature, please check our
 <!-- ALL-CONTRIBUTORS-LIST:START -->
 <!-- prettier-ignore -->
 <!--
-<table><tr><td align="center"><a href="https://twitter.com/ehmicky"><img src="https://avatars2.githubusercontent.com/u/8136211?v=4" width="100px;" alt="ehmicky"/><br /><sub><b>ehmicky</b></sub></a><br /><a href="https://github.com/ehmicky/not-deep-merge/commits?author=ehmicky" title="Code">💻</a> <a href="#design-ehmicky" title="Design">🎨</a> <a href="#ideas-ehmicky" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ehmicky/not-deep-merge/commits?author=ehmicky" title="Documentation">📖</a></td></tr></table>
+<table><tr><td align="center"><a href="https://twitter.com/ehmicky"><img src="https://avatars2.githubusercontent.com/u/8136211?v=4" width="100px;" alt="ehmicky"/><br /><sub><b>ehmicky</b></sub></a><br /><a href="https://github.com/ehmicky/partial-merge/commits?author=ehmicky" title="Code">💻</a> <a href="#design-ehmicky" title="Design">🎨</a> <a href="#ideas-ehmicky" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ehmicky/partial-merge/commits?author=ehmicky" title="Documentation">📖</a></td></tr></table>
  -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->

@@ -14,7 +14,7 @@ interface Options {
  * ```js
  * ```
  */
-export default function notDeepMerge<T>(
+export default function partialMerge<T>(
   firstValue: T,
   secondValue: T,
   options?: Options,

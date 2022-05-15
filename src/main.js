@@ -14,10 +14,10 @@ import { set as setArray, test as isArrayPatch } from 'set-array'
 //  - They are considered normal properties in first argument
 //     - Reason: they would not make sense since the first argument has lower
 //       priority
-//  - If the first argument might use those formats, `not-deep-merge` should be
+//  - If the first argument might use those formats, `partial-merge` should be
 //    applied to it first, using an empty object as first argument.
 // eslint-disable-next-line complexity
-export default function notDeepMerge(firstValue, secondValue) {
+export default function partialMerge(firstValue, secondValue) {
   if (!isPlainObj(secondValue)) {
     return secondValue
   }
@@ -29,7 +29,7 @@ export default function notDeepMerge(firstValue, secondValue) {
   }
 
   if (shouldPatchArray(firstValue, secondObject)) {
-    return setArray(firstValue, secondObject, { merge: notDeepMerge })
+    return setArray(firstValue, secondObject, { merge: partialMerge })
   }
 
   if (!isPlainObj(firstValue)) {
@@ -61,7 +61,7 @@ const deepMergeObjects = function (firstObject, secondObject) {
     const firstProp = getEnumValue(firstObject, secondKey)
     const secondProp = secondObject[secondKey]
     // eslint-disable-next-line fp/no-mutation
-    newObject[secondKey] = notDeepMerge(firstProp, secondProp)
+    newObject[secondKey] = partialMerge(firstProp, secondProp)
   }
 
   // eslint-disable-next-line fp/no-loops

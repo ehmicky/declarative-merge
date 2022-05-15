@@ -1,5 +1,5 @@
 import test from 'ava'
-import notDeepMerge from 'not-deep-merge'
+import partialMerge from 'partial-merge'
 import { each } from 'test-each'
 
 // eslint-disable-next-line fp/no-mutating-methods
@@ -17,7 +17,7 @@ each(
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {
-      t.false('notEnum' in notDeepMerge(first, second).aa)
+      t.false('notEnum' in partialMerge(first, second).aa)
     })
   },
 )
@@ -29,7 +29,7 @@ each(
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable symbols are not kept in result | ${title}`, (t) => {
-      t.false(notEnumSym in notDeepMerge(first, second)[notEnumSym])
+      t.false(notEnumSym in partialMerge(first, second)[notEnumSym])
     })
   },
 )
@@ -41,7 +41,7 @@ each(
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are ignored even if overridden | ${title}`, (t) => {
-      t.is(notDeepMerge(first, second).notEnum, 2)
+      t.is(partialMerge(first, second).notEnum, 2)
     })
   },
 )

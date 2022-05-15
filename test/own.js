@@ -1,5 +1,5 @@
 import test from 'ava'
-import notDeepMerge from 'not-deep-merge'
+import partialMerge from 'partial-merge'
 import { each } from 'test-each'
 
 each([Object.prototype, {}], ({ title }, prototype) => {
@@ -10,7 +10,7 @@ each([Object.prototype, {}], ({ title }, prototype) => {
       prototype.notOwn = 1
       const second = { aa: 1, __proto__: prototype }
       t.is(second.notOwn, 1)
-      const result = notDeepMerge({}, second)
+      const result = partialMerge({}, second)
       t.is(result.notOwn, 1)
       // eslint-disable-next-line fp/no-delete, no-param-reassign
       delete prototype.notOwn

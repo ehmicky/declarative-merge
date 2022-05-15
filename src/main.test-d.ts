@@ -1,9 +1,9 @@
-import notDeepMerge from 'not-deep-merge'
+import partialMerge from 'partial-merge'
 import { expectType, expectError } from 'tsd'
 
-expectType<{}>(notDeepMerge({}, {}))
+expectType<{}>(partialMerge({}, {}))
 
-notDeepMerge({}, {}, { mutate: true })
+partialMerge({}, {}, { mutate: true })
 
-expectError(notDeepMerge({}, {}, true))
-expectError(notDeepMerge({}, {}, { mutate: 1 }))
+expectError(partialMerge({}, {}, true))
+expectError(partialMerge({}, {}, { mutate: 1 }))
