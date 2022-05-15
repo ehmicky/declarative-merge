@@ -14,10 +14,10 @@ Declaratively merge:
 
 # Use cases
 
-`partial-merge` is intended for cases where objects/arrays manipulation in
-JavaScript is not available.
+This is intended for cases where objects/arrays manipulation in JavaScript is
+not available.
 
-For example, a library allowing shared configuration file to be extended.
+For example, a library allowing shared configuration files to be extended.
 
 ```yml
 extend: my-shared-config
@@ -49,8 +49,11 @@ Or a network "patch" request.
 PATCH /pets/0
 
 {
+  // Deep merge
   "capabilities": { "play": true },
+  // Shallow merge
   "title": { "name": "felix", "_merge": "shallow" },
+  // Append arrays
   "toys": { "-0": "newToy" }
 }
 ```
