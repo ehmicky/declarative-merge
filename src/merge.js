@@ -10,6 +10,11 @@
 // The `_merge` flag is removed from the object before processing it.
 // Other values are ignored.
 // `_merge` properties in the first value are kept as is, and cannot be set.
+// The `key` option can be used to customize the name of the `_merge` key
+//  - This is useful if `_merge` has some other meaning in the data, or if the
+//    name does not fit well
+//  - Symbols can be used to prevent any user injection of that special
+//    attribute
 export const parseMergeFlag = function (secondObject, currentMerge, key) {
   if (!(key in secondObject)) {
     return { currentMerge, childMerge: currentMerge, secondObject }
