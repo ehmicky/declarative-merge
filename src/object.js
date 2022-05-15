@@ -9,11 +9,12 @@ export const deepMergeObjects = function ({
   currentMerge,
   childMerge,
   mergeValues,
+  key,
 }) {
   const newObject = {}
 
   if (currentMerge) {
-    setFirstProps({ firstObject, secondObject, newObject, mergeValues })
+    setFirstProps({ firstObject, secondObject, newObject, mergeValues, key })
   }
 
   setSecondProps({
@@ -22,6 +23,7 @@ export const deepMergeObjects = function ({
     newObject,
     childMerge,
     mergeValues,
+    key,
   })
   return newObject
 }
@@ -37,13 +39,14 @@ const setFirstProps = function ({
   secondObject,
   newObject,
   mergeValues,
+  key,
 }) {
   // eslint-disable-next-line fp/no-loops
   for (const firstKey of getEnumKeys(firstObject)) {
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
     newObject[firstKey] = isEnum(secondObject, firstKey)
       ? firstObject[firstKey]
-      : deepClone(firstObject[firstKey], mergeValues)
+      : deepClone(firstObject[firstKey], mergeValues, key)
   }
 }
 
@@ -54,6 +57,7 @@ const setSecondProps = function ({
   newObject,
   childMerge,
   mergeValues,
+  key,
 }) {
   // eslint-disable-next-line fp/no-loops
   for (const secondKey of getEnumKeys(secondObject)) {
@@ -64,12 +68,13 @@ const setSecondProps = function ({
       firstValue,
       secondValue,
       currentMerge: childMerge,
+      key,
     })
   }
 }
 
-const deepClone = function (value, mergeValues) {
-  return isPlainObj(value) ? deepCloneObject(value, mergeValues) : value
+const deepClone = function (value, mergeValues, key) {
+  return isPlainObj(value) ? deepCloneObject(value, mergeValues, key) : value
 }
 
 // Before setting values, we deep clone them:
@@ -78,12 +83,13 @@ const deepClone = function (value, mergeValues) {
 //  - This ensures the algorithm is performed recursively, so that:
 //     - `_merge` property are removed
 //     - Non-enumerable and inherited properties are removed
-export const deepCloneObject = function (object, mergeValues) {
+export const deepCloneObject = function (object, mergeValues, key) {
   return deepMergeObjects({
     firstObject: {},
     secondObject: object,
     currentMerge: true,
     childMerge: true,
     mergeValues,
+    key,
   })
 }

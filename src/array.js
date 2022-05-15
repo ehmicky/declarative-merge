@@ -14,10 +14,16 @@ export const patchArray = function ({
   updates,
   childMerge,
   mergeValues,
+  key,
 }) {
   return setArray(array, updates, {
     merge(firstValue, secondValue) {
-      return mergeValues({ firstValue, secondValue, currentMerge: childMerge })
+      return mergeValues({
+        firstValue,
+        secondValue,
+        currentMerge: childMerge,
+        key,
+      })
     },
   })
 }

@@ -3,6 +3,7 @@ import isPlainObj from 'is-plain-obj'
 import { shouldPatchArray, patchArray } from './array.js'
 import { DEFAULT_MERGE, parseMergeFlag } from './merge.js'
 import { deepMergeObjects, deepCloneObject } from './object.js'
+import { getOptions } from './options.js'
 
 // Merge objects deeply, shallowly, or both.
 // Properties that are:
@@ -29,12 +30,18 @@ import { deepMergeObjects, deepCloneObject } from './object.js'
 //       priority
 //  - If the first argument might use those formats, `partial-merge` should be
 //    applied to it first, using an empty object as first argument.
-export default function partialMerge(firstValue, secondValue) {
-  return mergeValues({ firstValue, secondValue, currentMerge: DEFAULT_MERGE })
+export default function partialMerge(firstValue, secondValue, options) {
+  const { key } = getOptions(options)
+  return mergeValues({
+    firstValue,
+    secondValue,
+    currentMerge: DEFAULT_MERGE,
+    key,
+  })
 }
 
 // This function is called recursively, i.e. it is passed down as argument
-const mergeValues = function ({ firstValue, secondValue, currentMerge }) {
+const mergeValues = function ({ firstValue, secondValue, currentMerge, key }) {
   if (!isPlainObj(secondValue)) {
     return secondValue
   }
@@ -51,11 +58,12 @@ const mergeValues = function ({ firstValue, secondValue, currentMerge }) {
       updates: secondObject,
       childMerge,
       mergeValues,
+      key,
     })
   }
 
   if (!isPlainObj(firstValue)) {
-    return deepCloneObject(secondObject, mergeValues)
+    return deepCloneObject(secondObject, mergeValues, key)
   }
 
   return deepMergeObjects({
@@ -64,5 +72,6 @@ const mergeValues = function ({ firstValue, secondValue, currentMerge }) {
     currentMerge: currentMergeA,
     childMerge,
     mergeValues,
+    key,
   })
 }
