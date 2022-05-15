@@ -4,6 +4,7 @@ import { expectType, expectError } from 'tsd'
 const firstValue = { a: 1 }
 expectType<typeof firstValue>(partialMerge(firstValue, {}))
 
+const keySymbol = Symbol('key')
 partialMerge({ a: 1 }, {})
 partialMerge({ a: 1 }, { a: 2 })
 partialMerge({ b: { a: 1 } }, { b: { a: 2 } })
@@ -28,7 +29,12 @@ partialMerge([1], {})
 partialMerge([1], { '0': 2 })
 partialMerge({}, {}, {})
 partialMerge({}, {}, { key: 'key' })
-partialMerge({}, {}, { key: Symbol('key') })
+partialMerge({}, {}, { key: keySymbol })
+partialMerge({}, { key: 'deep' }, { key: 'key' })
+partialMerge({ key: 2 }, { key: 'deep' }, { key: 'key' })
+partialMerge({ a: [{}] }, { a: [{ key: 'deep' }] }, { key: 'key' })
+partialMerge({ a: [{}] }, { a: [{ [keySymbol]: 'deep' }] }, { key: keySymbol })
+partialMerge({ _merge: 2 }, { _merge: 2 }, { key: 'key' })
 
 expectError(partialMerge({}, {}, true))
 expectError(partialMerge({}, {}, { unknownOption: true }))
@@ -39,3 +45,12 @@ expectError(partialMerge({ a: [1] }, { a: [true] }))
 expectError(partialMerge({ a: [1] }, { a: { '1': true } }))
 expectError(partialMerge({ a: 1 }, { a: 2, _merge: 2 }))
 expectError(partialMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 2 }))
+expectError(partialMerge({}, { key: 2 }, { key: 'key' }))
+expectError(partialMerge({ a: [{}] }, { a: [{ key: 2 }] }, { key: 'key' }))
+expectError(
+  partialMerge(
+    { a: [{}] },
+    { a: [{ [keySymbol]: 2 }] },
+    { [keySymbol]: 'key' },
+  ),
+)
