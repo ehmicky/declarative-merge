@@ -40,6 +40,7 @@ partialMerge(
 )
 // { a: 10, b: { e: 20 } }
 
+// `_merge` can be specified in nested objects
 partialMerge(
   { a: 1, b: { c: 2 }, d: 3 },
   { a: 10, b: { e: 20, _merge: 'set' } },
@@ -71,19 +72,19 @@ partialMerge(
 // By default, arrays override each other
 partialMerge({ one: ['a', 'b', 'c'] }, { one: ['X', 'Y'] }) // { one: ['X', 'Y'] }
 
-// Arrays can be updated using an object where the keys are the array indices,
-// before any updates.
+// They can be updated instead using an object where the keys are the array
+// indices (before any updates).
 partialMerge({ one: ['a', 'b', 'c'], two: 2 }, { one: { 1: 'X' }, three: 3 })
 // { one: ['a', 'X', 'c'], two: 2, three: 3 }
 
-// This can be done inside properties or at the top-level
+// This works on top-level arrays too
 partialMerge(['a', 'b', 'c'], { 1: 'X', 2: 'Y' }) // ['a', 'X', 'Y']
 ```
 
 ### Merge
 
 ```js
-// New properties are merged
+// If the new array items are objects, they are merged
 partialMerge([{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }], {
   1: { value: { color: 'red' } },
 })
@@ -98,23 +99,13 @@ partialMerge([{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }], {
 ### Indices
 
 ```js
-// '*' targets all items
 partialMerge(['a', 'b', 'c'], { '*': 'X' }) // ['X', 'X', 'X']
-
-// Negative indices are matched from the end
 partialMerge(['a', 'b', 'c'], { '-1': 'X' }) // ['a', 'b', 'X']
-
-// Large positive indices extend the array
-partialMerge(['a', 'b', 'c'], { 4: 'X' }) // ['a', 'b', 'c', undefined, 'X']
-
-// Large negative indices stop at the first item
-partialMerge(['a', 'b', 'c'], { '-10': 'X' }) // ['X', 'b', 'c']
 ```
 
 ### Append
 
 ```js
-// -0 appends items
 partialMerge(['a', 'b', 'c'], { '-0': 'X' }) // ['a', 'b', 'c', 'X']
 ```
 
@@ -128,10 +119,7 @@ partialMerge(['a', 'b', 'c'], { '1+': 'X' }) // ['a', 'X', 'b', 'c']
 ### Add
 
 ```js
-// Array of items can be used
 partialMerge(['a', 'b', 'c'], { 1: ['X', 'Y'] }) // ['a', 'X', 'Y', 'c']
-
-// If the item is an array itself, it must be wrapped in another array
 partialMerge(['a', 'b', 'c'], { 1: ['X'] }) // ['a', 'X', 'c']
 partialMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
 ```
@@ -139,7 +127,6 @@ partialMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
 ### Delete
 
 ```js
-// Empty arrays remove items
 partialMerge(['a', 'b', 'c'], { 1: [] }) // ['a', 'c']
 ```
 
