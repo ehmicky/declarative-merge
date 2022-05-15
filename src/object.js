@@ -13,10 +13,16 @@ export const deepMergeObjects = function ({
   const newObject = {}
 
   if (currentMerge) {
-    setFirstProps(firstObject, secondObject, newObject, mergeValues)
+    setFirstProps({ firstObject, secondObject, newObject, mergeValues })
   }
 
-  setSecondProps(firstObject, secondObject, newObject, childMerge, mergeValues)
+  setSecondProps({
+    firstObject,
+    secondObject,
+    newObject,
+    childMerge,
+    mergeValues,
+  })
   return newObject
 }
 
@@ -26,13 +32,12 @@ export const deepMergeObjects = function ({
 // set, even though they will be overridden, to keep the keys order.
 //  - However, they are not cloned, as a performance optimization since they
 //    will be overridden anyway
-// eslint-disable-next-line max-params
-const setFirstProps = function (
+const setFirstProps = function ({
   firstObject,
   secondObject,
   newObject,
   mergeValues,
-) {
+}) {
   // eslint-disable-next-line fp/no-loops
   for (const firstKey of getEnumKeys(firstObject)) {
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
@@ -43,14 +48,13 @@ const setFirstProps = function (
 }
 
 // Properties from `secondObject` are merged to the `firstObject`, recursively
-// eslint-disable-next-line max-params
-const setSecondProps = function (
+const setSecondProps = function ({
   firstObject,
   secondObject,
   newObject,
   childMerge,
   mergeValues,
-) {
+}) {
   // eslint-disable-next-line fp/no-loops
   for (const secondKey of getEnumKeys(secondObject)) {
     const firstProp = getEnumValue(firstObject, secondKey)
