@@ -38,6 +38,6 @@ interface Options<KeyOpt> {
  */
 export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
   firstValue: T,
-  secondValue: SecondValue<T, KeyOpt extends never ? KeyOpt : KeyOpt>,
+  secondValue: SecondValue<T, KeyOpt extends never ? never : KeyOpt>,
   options?: Options<KeyOpt>,
 ): T
