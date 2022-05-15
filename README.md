@@ -10,13 +10,128 @@ Work in progress!
 
 # Examples
 
-## Deep merge
+## Objects
+
+### Deep merge
 
 ```js
 import partialMerge from 'partial-merge'
 
-partialMerge({ a: 1, b: { c: 2 }, d: 3 }, { a: 10, b: { e: 20 }, f: 40 })
-// { a: 10, b: { c: 2, e: 20 }, d: 3, f: 40 }
+partialMerge({ a: 1, b: { c: 2 }, d: 3 }, { a: 10, b: { e: 20 } })
+// { a: 10, b: { c: 2, e: 20 }, d: 3 }
+```
+
+### Shallow merge
+
+```js
+partialMerge(
+  { a: 1, b: { c: 2 }, d: 3 },
+  { a: 10, b: { e: 20 }, _merge: 'shallow' },
+)
+// { a: 10, b: { e: 20 }, d: 3 }
+```
+
+### No merge
+
+```js
+partialMerge(
+  { a: 1, b: { c: 2 }, d: 3 },
+  { a: 10, b: { e: 20 }, _merge: 'set' },
+)
+// { a: 10, b: { e: 20 } }
+
+partialMerge(
+  { a: 1, b: { c: 2 }, d: 3 },
+  { a: 10, b: { e: 20, _merge: 'set' } },
+)
+// { a: 10, b: { e: 20 }, d: 3 }
+```
+
+### Delete
+
+```js
+partialMerge(
+  { a: 1, b: { c: 2 }, d: 3 },
+  { a: 10, b: { e: 20, _merge: 'delete' } },
+)
+// { a: 10, d: 3 }
+```
+
+## Arrays
+
+### Patch
+
+```js
+// Arrays can be updated using an object where the keys are the array indices,
+// before any updates.
+partialMerge({ one: ['a', 'b', 'c'], two: 2 }, { one: { 1: 'X' }, three: 3 })
+// { one: ['a', 'X', 'c'], two: 2, three: 3 }
+
+// This can be done inside properties or at the top-level
+partialMerge(['a', 'b', 'c'], { 1: 'X', 2: 'Y' }) // ['a', 'X', 'Y']
+```
+
+### Deep merge
+
+```js
+// New properties are merged
+partialMerge([{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }], {
+  1: { value: { color: 'red' } },
+})
+// [{ id: 'a' }, { id: 'b', value: { name: 'Ann', color: 'red' } }, { id: 'c' }]
+
+partialMerge([{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }], {
+  1: { value: { color: 'red' }, _merge: 'shallow' },
+})
+// [{ id: 'a' }, { id: 'b', value: { color: 'red' } }, { id: 'c' }]
+```
+
+### Indices
+
+```js
+// '*' targets all items
+partialMerge(['a', 'b', 'c'], { '*': 'X' }) // ['X', 'X', 'X']
+
+// Negative indices are matched from the end
+partialMerge(['a', 'b', 'c'], { '-1': 'X' }) // ['a', 'b', 'X']
+
+// Large positive indices extend the array
+partialMerge(['a', 'b', 'c'], { 4: 'X' }) // ['a', 'b', 'c', undefined, 'X']
+
+// Large negative indices stop at the first item
+partialMerge(['a', 'b', 'c'], { '-10': 'X' }) // ['X', 'b', 'c']
+```
+
+### Append
+
+```js
+// -0 appends items
+partialMerge(['a', 'b', 'c'], { '-0': 'X' }) // ['a', 'b', 'c', 'X']
+```
+
+### Insert
+
+```js
+// If the key ends with +, items are prepended, not replaced
+partialMerge(['a', 'b', 'c'], { '1+': 'X' }) // ['a', 'X', 'b', 'c']
+```
+
+### Add
+
+```js
+// Array of items can be used
+partialMerge(['a', 'b', 'c'], { 1: ['X', 'Y'] }) // ['a', 'X', 'Y', 'c']
+
+// If the item is an array itself, it must be wrapped in another array
+partialMerge(['a', 'b', 'c'], { 1: ['X'] }) // ['a', 'X', 'c']
+partialMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
+```
+
+### Delete
+
+```js
+// Empty arrays remove items
+partialMerge(['a', 'b', 'c'], { 1: [] }) // ['a', 'c']
 ```
 
 # Install
@@ -31,11 +146,31 @@ not `require()`.
 
 # API
 
-## partialMerge(firstValue, secondValue)
+## partialMerge(firstValue, secondValue, options?)
 
 `firstValue` `any`\
 `secondValue` `any`\
+`options` [`Options`](#options)\
 _Return value_: `any`
+
+### Options
+
+Options are an optional object.
+
+#### key
+
+_Type_: `string | symbol`\
+_Default_: `_merge`
+
+Name of the property used to specify the merge mode.\
+Using a symbol can be useful to prevent injections if the input is user-provided.
+
+```js
+partialMerge({ a: 1 }, { b: 2, _mergeMode: 'set' }, { key: '_mergeMode' }) // { b: 2 }
+
+const mergeMode = Symbol('mergeMode')
+partialMerge({ a: 1 }, { b: 2, [mergeMode]: 'set' }, { key: mergeMode }) // { b: 2 }
+```
 
 # Support
 
