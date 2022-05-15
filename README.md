@@ -13,7 +13,7 @@ Merge:
   [deleted](#delete-1)
 
 Designed for declarative use cases (configuration files, etc.) where merging is
-needed but JavaScript array/object methods are not available.
+needed but objects/arrays manipulation in JavaScript in not available.
 
 # Examples
 
