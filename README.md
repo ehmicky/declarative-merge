@@ -147,17 +147,13 @@ declarativeMerge(['a', 'b', 'c'], { 1: 'X', 2: 'Y' }) // ['a', 'X', 'Y']
 // If the new array items are objects, they are merged
 declarativeMerge(
   [{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }],
-  {
-    1: { value: { color: 'red' } },
-  },
+  { 1: { value: { color: 'red' } } },
 )
 // [{ id: 'a' }, { id: 'b', value: { name: 'Ann', color: 'red' } }, { id: 'c' }]
 
 declarativeMerge(
   [{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }],
-  {
-    1: { value: { color: 'red' }, _merge: 'shallow' },
-  },
+  { 1: { value: { color: 'red' }, _merge: 'shallow' } },
 )
 // [{ id: 'a' }, { id: 'b', value: { color: 'red' } }, { id: 'c' }]
 ```
