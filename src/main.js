@@ -31,7 +31,7 @@ export default function notDeepMerge(firstValue, secondValue) {
   }
 
   if (!isPlainObj(firstValue)) {
-    return deepClone(secondValue)
+    return deepCloneObject(secondValue)
   }
 
   return deepMergeObjects(firstValue, secondValue)
@@ -43,7 +43,7 @@ const shouldSet = function (object) {
 }
 
 const deepCloneSet = function (object) {
-  const objectCopy = deepClone(object)
+  const objectCopy = deepCloneObject(object)
   // eslint-disable-next-line fp/no-delete, no-underscore-dangle
   delete objectCopy._set
   return objectCopy
@@ -54,14 +54,23 @@ const shouldPatchArray = function (firstValue, secondObject) {
 }
 
 const deepMergeObjects = function (firstObject, secondObject) {
-  const newObject = { ...firstObject }
+  const newObject = {}
 
   // eslint-disable-next-line fp/no-loops
-  for (const key of getEnumKeys(secondObject)) {
-    const firstProp = getEnumValue(firstObject, key)
-    const secondProp = secondObject[key]
+  for (const secondKey of getEnumKeys(secondObject)) {
+    const firstProp = getEnumValue(firstObject, secondKey)
+    const secondProp = secondObject[secondKey]
     // eslint-disable-next-line fp/no-mutation
-    newObject[key] = notDeepMerge(firstProp, secondProp)
+    newObject[secondKey] = notDeepMerge(firstProp, secondProp)
+  }
+
+  // eslint-disable-next-line fp/no-loops
+  for (const firstKey of getEnumKeys(firstObject)) {
+    // eslint-disable-next-line max-depth
+    if (!isEnum.call(newObject, firstKey)) {
+      // eslint-disable-next-line fp/no-mutation
+      newObject[firstKey] = deepClone(firstObject[firstKey])
+    }
   }
 
   return newObject
@@ -81,6 +90,10 @@ const getEnumValue = function (object, key) {
   return isEnum.call(object, key) ? object[key] : undefined
 }
 
-const deepClone = function (object) {
+const deepClone = function (value) {
+  return isPlainObj(value) ? deepCloneObject(value) : value
+}
+
+const deepCloneObject = function (object) {
   return deepMergeObjects({}, object)
 }

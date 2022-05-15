@@ -14,8 +14,7 @@ const nonEnumObj = getNonEnumObj()
 each(
   [
     { firstValue: {}, secondValue: { aa: nonEnumObj } },
-    // TODO: fix. The first argument is not deeply cloned
-    // { firstValue: { aa: nonEnumObj }, secondValue: {} },
+    { firstValue: { aa: nonEnumObj }, secondValue: {} },
   ],
   ({ title }, { firstValue, secondValue }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {
