@@ -30,6 +30,47 @@ each(
       second: { bb: 2, _set: 3 },
       result: { aa: 1, bb: 2, _set: 3 },
     },
+    {
+      first: { cc: { dd: { aa: 1 }, ff: 1 }, ee: 1 },
+      second: { cc: { dd: { bb: 2, _set: true }, _set: false }, _set: true },
+      result: { cc: { dd: { bb: 2 }, ff: 1 } },
+    },
+    {
+      first: { cc: { dd: { aa: 1 }, ff: 1 }, ee: 1 },
+      second: { cc: { dd: { bb: 2, _set: true }, _set: true }, _set: true },
+      result: { cc: { dd: { bb: 2 } } },
+    },
+    {
+      first: { cc: { dd: { aa: 1 }, ff: 1 }, ee: 1 },
+      second: { cc: { dd: { bb: 2, _set: false }, _set: false }, _set: false },
+      result: { cc: { dd: { aa: 1, bb: 2 }, ff: 1 }, ee: 1 },
+    },
+    {
+      first: { cc: [1], aa: 3 },
+      second: { cc: { 1: 2 }, bb: 2, _set: true },
+      result: { cc: [1, 2], bb: 2 },
+    },
+    {
+      first: { cc: [{ aa: 1 }] },
+      second: { cc: { 0: { bb: 2 } }, _set: true },
+      result: { cc: [{ bb: 2 }] },
+    },
+    {
+      first: { cc: [{ aa: 1 }] },
+      second: { cc: { 0: { bb: 2 } }, _set: false },
+      result: { cc: [{ aa: 1, bb: 2 }] },
+    },
+    // TODO: allow both updates + _set
+    {
+      first: { cc: [{ aa: 1 }] },
+      second: { cc: { 0: { bb: 2 }, _set: true } },
+      result: { cc: { 0: { bb: 2 } } },
+    },
+    {
+      first: { cc: [{ aa: 1 }, { aa: 1 }] },
+      second: { cc: { 0: { bb: 2, _set: true }, 1: { bb: 2, _set: false } } },
+      result: { cc: [{ bb: 2 }, { aa: 1, bb: 2 }] },
+    },
   ],
   ({ title }, { first, second, result }) => {
     test(`Objects with _set: true are not merged | ${title}`, (t) => {
