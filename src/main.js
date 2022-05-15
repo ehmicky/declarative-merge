@@ -1,18 +1,24 @@
 import isPlainObj from 'is-plain-obj'
 import { set as setArray, test as isArrayPatch } from 'set-array'
 
-// Deeply merge objects.
-// Inherited and non-enumerable properties are ignored.
-// Symbol properties are kept.
-// Plain objects are deeply cloned. Non-plain objects (and their children) are
-// not cloned.
-// If the second argument is an object with a property `_set: true`, the first
-// argument is overridden instead of being merged to.
-//  - Children can change this property. This allows nesting objects.
-//  - `_set: null` can be used to merge shallowly instead
+// Merge objects deeply, shallowly, or both.
+// Properties that are:
+//  - Inherited and non-enumerable are ignored.
+//  - Symbols are kept.
+// The arguments are not modified.
+//  - Plain objects are deeply cloned.
+//  - Non-plain objects (and their children) are not cloned.
+// The merge mode can be specified on any object in the second argument with a
+// `_set` property:
+//  - Possible values:
+//     - `false` (def): deep merge
+//     - `null`: shallow merge
+//     - `true`: no merge
+//  - Children can override that property, which is convenient when nesting
+//    objects
 // If the first argument is an array and the second argument is a patch object
 // (like `{ 1: 'a', 3: 'f' }`, or an empty object), the array is patched.
-//  - It is patched even if `_set` is `true`
+//  - It is patched regardless of whether `_set` is used
 //  - New elements are merged using the current `_set` value
 // `_set` and patch objects are only allowed in the second argument:
 //  - They are considered normal properties in first argument
