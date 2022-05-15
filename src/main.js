@@ -63,31 +63,48 @@ const parseSetFlag = function (secondObject, setFlag) {
   return { setFlag: setFlagA, secondObject: secondObjectA }
 }
 
-// TODO: refactor
-// eslint-disable-next-line complexity
 const deepMergeObjects = function (firstObject, secondObject, setFlag) {
   const newObject = {}
+  setFirstValues(firstObject, secondObject, newObject, setFlag)
+  setSecondValues(firstObject, secondObject, newObject, setFlag)
+  return newObject
+}
 
-  if (!setFlag) {
-    // eslint-disable-next-line fp/no-loops, max-depth
-    for (const firstKey of getEnumKeys(firstObject)) {
-      // eslint-disable-next-line max-depth
-      if (!isEnum.call(secondObject, firstKey)) {
-        // eslint-disable-next-line fp/no-mutation
-        newObject[firstKey] = deepClone(firstObject[firstKey], setFlag)
-      }
-    }
+// eslint-disable-next-line max-params
+const setFirstValues = function (
+  firstObject,
+  secondObject,
+  newObject,
+  setFlag,
+) {
+  if (setFlag) {
+    return
   }
 
+  // eslint-disable-next-line fp/no-loops
+  for (const firstKey of getEnumKeys(firstObject)) {
+    // eslint-disable-next-line max-depth
+    if (!isEnum.call(secondObject, firstKey)) {
+      // eslint-disable-next-line fp/no-mutation, no-param-reassign
+      newObject[firstKey] = deepClone(firstObject[firstKey], setFlag)
+    }
+  }
+}
+
+// eslint-disable-next-line max-params
+const setSecondValues = function (
+  firstObject,
+  secondObject,
+  newObject,
+  setFlag,
+) {
   // eslint-disable-next-line fp/no-loops
   for (const secondKey of getEnumKeys(secondObject)) {
     const firstProp = getEnumValue(firstObject, secondKey)
     const secondProp = secondObject[secondKey]
-    // eslint-disable-next-line fp/no-mutation
+    // eslint-disable-next-line fp/no-mutation, no-param-reassign
     newObject[secondKey] = mergeValues(firstProp, secondProp, setFlag)
   }
-
-  return newObject
 }
 
 const { propertyIsEnumerable: isEnum } = Object.prototype
