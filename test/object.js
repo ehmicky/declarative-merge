@@ -1,5 +1,5 @@
 import test from 'ava'
-import partialMerge from 'partial-merge'
+import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
 each(
@@ -30,14 +30,16 @@ each(
   ],
   ({ title }, { first, second, result }) => {
     test(`Objects are deeply merged | ${title}`, (t) => {
-      t.deepEqual(partialMerge(first, second), result)
+      t.deepEqual(declarativeMerge(first, second), result)
     })
   },
 )
 
 test('Object properties order is kept', (t) => {
   t.deepEqual(
-    Object.keys(partialMerge({ aa: 1, bb: 1, cc: 1 }, { cc: 2, aa: 2, dd: 2 })),
+    Object.keys(
+      declarativeMerge({ aa: 1, bb: 1, cc: 1 }, { cc: 2, aa: 2, dd: 2 }),
+    ),
     ['aa', 'bb', 'cc', 'dd'],
   )
 })

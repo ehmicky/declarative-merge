@@ -1,6 +1,6 @@
-[![Codecov](https://img.shields.io/codecov/c/github/ehmicky/partial-merge.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/partial-merge)
-[![Build](https://github.com/ehmicky/partial-merge/workflows/Build/badge.svg)](https://github.com/ehmicky/partial-merge/actions)
-[![Node](https://img.shields.io/node/v/partial-merge.svg?logo=node.js)](https://www.npmjs.com/package/partial-merge)
+[![Codecov](https://img.shields.io/codecov/c/github/ehmicky/declarative-merge.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/declarative-merge)
+[![Build](https://github.com/ehmicky/declarative-merge/workflows/Build/badge.svg)](https://github.com/ehmicky/declarative-merge/actions)
+[![Node](https://img.shields.io/node/v/declarative-merge.svg?logo=node.js)](https://www.npmjs.com/package/declarative-merge)
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-4cc61e.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-4cc61e.svg?logo=medium)](https://medium.com/@ehmicky)
 
@@ -68,16 +68,16 @@ PATCH /pets/0
 ### Deep merge
 
 ```js
-import partialMerge from 'partial-merge'
+import declarativeMerge from 'declarative-merge'
 
-partialMerge({ a: 1, b: { c: 2 }, d: 3 }, { a: 10, b: { e: 20 } })
+declarativeMerge({ a: 1, b: { c: 2 }, d: 3 }, { a: 10, b: { e: 20 } })
 // { a: 10, b: { c: 2, e: 20 }, d: 3 }
 ```
 
 ### Shallow merge
 
 ```js
-partialMerge(
+declarativeMerge(
   { a: 1, b: { c: 2 }, d: 3 },
   { a: 10, b: { e: 20 }, _merge: 'shallow' },
 )
@@ -87,7 +87,7 @@ partialMerge(
 ### No merge
 
 ```js
-partialMerge(
+declarativeMerge(
   { a: 1, b: { c: 2 }, d: 3 },
   { a: 10, b: { e: 20 }, _merge: 'set' },
 )
@@ -98,13 +98,13 @@ partialMerge(
 
 ```js
 // `_merge` can be specified in nested objects
-partialMerge(
+declarativeMerge(
   { a: 1, b: { c: 2 }, d: 3 },
   { a: 10, b: { e: 20, _merge: 'set' } },
 )
 // { a: 10, b: { e: 20 }, d: 3 }
 
-partialMerge(
+declarativeMerge(
   { a: 1, b: { c: 2 }, d: 3 },
   { a: 10, b: { e: 20, _merge: 'deep' }, _merge: 'set' },
 )
@@ -114,7 +114,7 @@ partialMerge(
 ### Delete
 
 ```js
-partialMerge(
+declarativeMerge(
   { a: 1, b: { c: 2 }, d: 3 },
   { a: 10, b: { e: 20, _merge: 'delete' } },
 )
@@ -127,79 +127,88 @@ partialMerge(
 
 ```js
 // By default, arrays override each other
-partialMerge({ one: ['a', 'b', 'c'] }, { one: ['X', 'Y'] }) // { one: ['X', 'Y'] }
+declarativeMerge({ one: ['a', 'b', 'c'] }, { one: ['X', 'Y'] }) // { one: ['X', 'Y'] }
 
 // They can be updated instead using an object where the keys are the array
 // indices (before any updates).
-partialMerge({ one: ['a', 'b', 'c'], two: 2 }, { one: { 1: 'X' }, three: 3 })
+declarativeMerge(
+  { one: ['a', 'b', 'c'], two: 2 },
+  { one: { 1: 'X' }, three: 3 },
+)
 // { one: ['a', 'X', 'c'], two: 2, three: 3 }
 
 // This works on top-level arrays too
-partialMerge(['a', 'b', 'c'], { 1: 'X', 2: 'Y' }) // ['a', 'X', 'Y']
+declarativeMerge(['a', 'b', 'c'], { 1: 'X', 2: 'Y' }) // ['a', 'X', 'Y']
 ```
 
 ### Merge
 
 ```js
 // If the new array items are objects, they are merged
-partialMerge([{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }], {
-  1: { value: { color: 'red' } },
-})
+declarativeMerge(
+  [{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }],
+  {
+    1: { value: { color: 'red' } },
+  },
+)
 // [{ id: 'a' }, { id: 'b', value: { name: 'Ann', color: 'red' } }, { id: 'c' }]
 
-partialMerge([{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }], {
-  1: { value: { color: 'red' }, _merge: 'shallow' },
-})
+declarativeMerge(
+  [{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }],
+  {
+    1: { value: { color: 'red' }, _merge: 'shallow' },
+  },
+)
 // [{ id: 'a' }, { id: 'b', value: { color: 'red' } }, { id: 'c' }]
 ```
 
 ### Indices
 
 ```js
-partialMerge(['a', 'b', 'c'], { '*': 'X' }) // ['X', 'X', 'X']
-partialMerge(['a', 'b', 'c'], { '-1': 'X' }) // ['a', 'b', 'X']
-partialMerge(['a', 'b', 'c'], { 4: 'X' }) // ['a', 'b', 'c', undefined, 'X']
+declarativeMerge(['a', 'b', 'c'], { '*': 'X' }) // ['X', 'X', 'X']
+declarativeMerge(['a', 'b', 'c'], { '-1': 'X' }) // ['a', 'b', 'X']
+declarativeMerge(['a', 'b', 'c'], { 4: 'X' }) // ['a', 'b', 'c', undefined, 'X']
 ```
 
 ### Add
 
 ```js
 // Array of items can be used
-partialMerge(['a', 'b', 'c'], { 1: ['X', 'Y'] }) // ['a', 'X', 'Y', 'c']
-partialMerge(['a', 'b', 'c'], { 1: ['X'] }) // ['a', 'X', 'c']
-partialMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
+declarativeMerge(['a', 'b', 'c'], { 1: ['X', 'Y'] }) // ['a', 'X', 'Y', 'c']
+declarativeMerge(['a', 'b', 'c'], { 1: ['X'] }) // ['a', 'X', 'c']
+declarativeMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
 ```
 
 ### Insert
 
 ```js
 // If the key ends with +, items are prepended, not replaced
-partialMerge(['a', 'b', 'c'], { '1+': 'X' }) // ['a', 'X', 'b', 'c']
+declarativeMerge(['a', 'b', 'c'], { '1+': 'X' }) // ['a', 'X', 'b', 'c']
 ```
 
 ### Append
 
 ```js
-partialMerge(['a', 'b', 'c'], { '-0': 'X' }) // ['a', 'b', 'c', 'X']
-partialMerge(['a', 'b', 'c'], { '-0': ['X', 'Y'] }) // ['a', 'b', 'c', 'X', 'Y']
+declarativeMerge(['a', 'b', 'c'], { '-0': 'X' }) // ['a', 'b', 'c', 'X']
+declarativeMerge(['a', 'b', 'c'], { '-0': ['X', 'Y'] }) // ['a', 'b', 'c', 'X', 'Y']
 ```
 
 ### Prepend
 
 ```js
-partialMerge(['a', 'b', 'c'], { '0+': ['X', 'Y'] }) // ['X', 'Y', 'a', 'b', 'c']
+declarativeMerge(['a', 'b', 'c'], { '0+': ['X', 'Y'] }) // ['X', 'Y', 'a', 'b', 'c']
 ```
 
 ### Delete
 
 ```js
-partialMerge(['a', 'b', 'c'], { 1: [] }) // ['a', 'c']
+declarativeMerge(['a', 'b', 'c'], { 1: [] }) // ['a', 'c']
 ```
 
 # Install
 
 ```bash
-npm install partial-merge
+npm install declarative-merge
 ```
 
 This package is an ES module and must be loaded using
@@ -208,7 +217,7 @@ not `require()`.
 
 # API
 
-## partialMerge(firstValue, secondValue, options?)
+## declarativeMerge(firstValue, secondValue, options?)
 
 `firstValue` `any`\
 `secondValue` `any`\
@@ -253,14 +262,14 @@ _Default_: `"_merge"`
 Name of the property used to specify the [merge mode](#merge-mode).
 
 ```js
-partialMerge({ a: 1 }, { b: 2, _mergeMode: 'set' }, { key: '_mergeMode' }) // { b: 2 }
+declarativeMerge({ a: 1 }, { b: 2, _mergeMode: 'set' }, { key: '_mergeMode' }) // { b: 2 }
 ```
 
 Symbols can be useful to prevent injections when the input is user-provided.
 
 ```js
 const mergeMode = Symbol('mergeMode')
-partialMerge({ a: 1 }, { b: 2, [mergeMode]: 'set' }, { key: mergeMode }) // { b: 2 }
+declarativeMerge({ a: 1 }, { b: 2, [mergeMode]: 'set' }, { key: mergeMode }) // { b: 2 }
 ```
 
 # Related projects
@@ -292,6 +301,6 @@ If you would like to help us fix a bug or add a new feature, please check our
 <!-- ALL-CONTRIBUTORS-LIST:START -->
 <!-- prettier-ignore -->
 <!--
-<table><tr><td align="center"><a href="https://twitter.com/ehmicky"><img src="https://avatars2.githubusercontent.com/u/8136211?v=4" width="100px;" alt="ehmicky"/><br /><sub><b>ehmicky</b></sub></a><br /><a href="https://github.com/ehmicky/partial-merge/commits?author=ehmicky" title="Code">💻</a> <a href="#design-ehmicky" title="Design">🎨</a> <a href="#ideas-ehmicky" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ehmicky/partial-merge/commits?author=ehmicky" title="Documentation">📖</a></td></tr></table>
+<table><tr><td align="center"><a href="https://twitter.com/ehmicky"><img src="https://avatars2.githubusercontent.com/u/8136211?v=4" width="100px;" alt="ehmicky"/><br /><sub><b>ehmicky</b></sub></a><br /><a href="https://github.com/ehmicky/declarative-merge/commits?author=ehmicky" title="Code">💻</a> <a href="#design-ehmicky" title="Design">🎨</a> <a href="#ideas-ehmicky" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ehmicky/declarative-merge/commits?author=ehmicky" title="Documentation">📖</a></td></tr></table>
  -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->

@@ -30,8 +30,8 @@ import { getOptions } from './options.js'
 //  - They are considered normal properties in first argument
 //     - Reason: they would not make sense since the first argument has lower
 //       priority
-//  - If the first argument might use those formats, `partial-merge` should be
-//    applied to it first, using an empty object as first argument.
+//  - If the first argument might use those formats, `declarative-merge` should
+//    be applied to it first, using an empty object as first argument.
 // When `_merge: "delete"` is used:
 //  - The property is deleted instead.
 //  - Inside an array update:
@@ -41,7 +41,7 @@ import { getOptions } from './options.js'
 //  - Sibling and child properties will be ignored
 //  - Users can still set `undefined` or `null` values, which remains a separate
 //    operation from deletion
-export default function partialMerge(firstValue, secondValue, options) {
+export default function declarativeMerge(firstValue, secondValue, options) {
   const { key } = getOptions(options)
   const mergedValue = mergeValues({
     firstValue,

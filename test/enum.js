@@ -1,5 +1,5 @@
 import test from 'ava'
-import partialMerge from 'partial-merge'
+import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
 // eslint-disable-next-line fp/no-mutating-methods
@@ -17,7 +17,7 @@ each(
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {
-      t.false('notEnum' in partialMerge(first, second).aa)
+      t.false('notEnum' in declarativeMerge(first, second).aa)
     })
   },
 )
@@ -29,7 +29,7 @@ each(
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable symbols are not kept in result | ${title}`, (t) => {
-      t.false(notEnumSym in partialMerge(first, second)[notEnumSym])
+      t.false(notEnumSym in declarativeMerge(first, second)[notEnumSym])
     })
   },
 )
@@ -41,7 +41,7 @@ each(
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are ignored even if overridden | ${title}`, (t) => {
-      t.is(partialMerge(first, second).notEnum, 2)
+      t.is(declarativeMerge(first, second).notEnum, 2)
     })
   },
 )
@@ -54,7 +54,7 @@ each([Object.prototype, {}], ({ title }, prototype) => {
       prototype.notOwn = 1
       const second = { aa: 1, __proto__: prototype }
       t.is(second.notOwn, 1)
-      const result = partialMerge({}, second)
+      const result = declarativeMerge({}, second)
       t.is(result.notOwn, 1)
       // eslint-disable-next-line fp/no-delete, no-param-reassign
       delete prototype.notOwn

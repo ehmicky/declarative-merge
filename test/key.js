@@ -1,5 +1,5 @@
 import test from 'ava'
-import partialMerge from 'partial-merge'
+import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
 const KEY_SYM = Symbol('_merge')
@@ -39,11 +39,11 @@ each(
   ],
   ({ title }, { key, first, second, result }) => {
     test(`The "key" option changes the merge key | ${title}`, (t) => {
-      t.deepEqual(partialMerge(first, second, { key }), result)
+      t.deepEqual(declarativeMerge(first, second, { key }), result)
     })
   },
 )
 
 test('The "key" option is validated', (t) => {
-  t.throws(() => partialMerge({}, {}, { key: 1 }))
+  t.throws(() => declarativeMerge({}, {}, { key: 1 }))
 })

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import test from 'ava'
-import partialMerge from 'partial-merge'
+import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
 each(
@@ -100,12 +100,12 @@ each(
   ],
   ({ title }, { first, second, result }) => {
     test(`Objects can set the _merge mode | ${title}`, (t) => {
-      t.deepEqual(partialMerge(first, second), result)
+      t.deepEqual(declarativeMerge(first, second), result)
     })
   },
 )
 
 test('Invalid _merge value throws', (t) => {
-  t.throws(() => partialMerge({}, { _merge: true }))
+  t.throws(() => declarativeMerge({}, { _merge: true }))
 })
 /* eslint-enable max-lines */

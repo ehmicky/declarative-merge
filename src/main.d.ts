@@ -6,7 +6,7 @@ import { Updates } from 'set-array'
  * ```js
  * ```
  */
-export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
+export default function declarativeMerge<T, KeyOpt extends Key = DefaultKey>(
   firstValue: T,
   secondValue: SecondValue<T, NoInfer<KeyOpt>>,
   options?: Options<KeyOpt>,

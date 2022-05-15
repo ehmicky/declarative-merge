@@ -1,55 +1,59 @@
-import partialMerge from 'partial-merge'
+import declarativeMerge from 'declarative-merge'
 import { expectType, expectError } from 'tsd'
 
 const firstValue = { a: 1 }
-expectType<typeof firstValue>(partialMerge(firstValue, {}))
+expectType<typeof firstValue>(declarativeMerge(firstValue, {}))
 
 const keySymbol = Symbol('key')
-partialMerge({ a: 1 }, {})
-partialMerge({ a: 1 }, { a: 2 })
-partialMerge({ b: { a: 1 } }, { b: { a: 2 } })
-partialMerge({ a: 1 }, { a: 2, _merge: 'deep' })
-partialMerge({ a: 1 }, { a: 2, _merge: 'shallow' })
-partialMerge({ a: 1 }, { a: 2, _merge: 'set' })
-partialMerge({ a: 1 }, { a: 2, _merge: 'delete' })
-partialMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 'set' })
-partialMerge({ b: { a: 1 } }, { b: { a: 2, _merge: 'set' } })
-expectType<number>(partialMerge({ a: 1, _merge: 2 }, {})._merge)
-expectType<number>(partialMerge({ a: 1, b: { _merge: 2 } }, {}).b._merge)
-partialMerge({ a: [1] }, {})
-partialMerge({ a: [1] }, { a: [2] })
-partialMerge({ a: [1] }, { a: {} })
-partialMerge({ a: [1] }, { a: { '1': 2 } })
-partialMerge({ a: [1] }, { a: { '1': [2] } })
-partialMerge({ a: [{ b: 1 }] }, { a: { '0': { b: 2, _merge: 'set' } } })
-partialMerge(
+declarativeMerge({ a: 1 }, {})
+declarativeMerge({ a: 1 }, { a: 2 })
+declarativeMerge({ b: { a: 1 } }, { b: { a: 2 } })
+declarativeMerge({ a: 1 }, { a: 2, _merge: 'deep' })
+declarativeMerge({ a: 1 }, { a: 2, _merge: 'shallow' })
+declarativeMerge({ a: 1 }, { a: 2, _merge: 'set' })
+declarativeMerge({ a: 1 }, { a: 2, _merge: 'delete' })
+declarativeMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 'set' })
+declarativeMerge({ b: { a: 1 } }, { b: { a: 2, _merge: 'set' } })
+expectType<number>(declarativeMerge({ a: 1, _merge: 2 }, {})._merge)
+expectType<number>(declarativeMerge({ a: 1, b: { _merge: 2 } }, {}).b._merge)
+declarativeMerge({ a: [1] }, {})
+declarativeMerge({ a: [1] }, { a: [2] })
+declarativeMerge({ a: [1] }, { a: {} })
+declarativeMerge({ a: [1] }, { a: { '1': 2 } })
+declarativeMerge({ a: [1] }, { a: { '1': [2] } })
+declarativeMerge({ a: [{ b: 1 }] }, { a: { '0': { b: 2, _merge: 'set' } } })
+declarativeMerge(
   { a: [[{ b: 1 }]] },
   { a: { '0': { '0': { b: 2, _merge: 'set' } } } },
 )
-partialMerge([1], {})
-partialMerge([1], { '0': 2 })
-partialMerge({}, {}, {})
-partialMerge({}, {}, { key: 'key' })
-partialMerge({}, {}, { key: keySymbol })
-partialMerge({}, { key: 'deep' }, { key: 'key' })
-partialMerge({ key: 2 }, { key: 'deep' }, { key: 'key' })
-partialMerge({ a: [{}] }, { a: [{ key: 'deep' }] }, { key: 'key' })
-partialMerge({ a: [{}] }, { a: [{ [keySymbol]: 'deep' }] }, { key: keySymbol })
-partialMerge({ _merge: 2 }, { _merge: 2 }, { key: 'key' })
+declarativeMerge([1], {})
+declarativeMerge([1], { '0': 2 })
+declarativeMerge({}, {}, {})
+declarativeMerge({}, {}, { key: 'key' })
+declarativeMerge({}, {}, { key: keySymbol })
+declarativeMerge({}, { key: 'deep' }, { key: 'key' })
+declarativeMerge({ key: 2 }, { key: 'deep' }, { key: 'key' })
+declarativeMerge({ a: [{}] }, { a: [{ key: 'deep' }] }, { key: 'key' })
+declarativeMerge(
+  { a: [{}] },
+  { a: [{ [keySymbol]: 'deep' }] },
+  { key: keySymbol },
+)
+declarativeMerge({ _merge: 2 }, { _merge: 2 }, { key: 'key' })
 
-expectError(partialMerge({}, {}, true))
-expectError(partialMerge({}, {}, { unknownOption: true }))
-expectError(partialMerge({}, {}, { key: 0 }))
-expectError(partialMerge({ a: 1 }, { b: 2 }))
-expectError(partialMerge({ c: { a: 1 } }, { c: { b: 2 } }))
-expectError(partialMerge({ a: [1] }, { a: [true] }))
-expectError(partialMerge({ a: [1] }, { a: { '1': true } }))
-expectError(partialMerge({ a: 1 }, { a: 2, _merge: 2 }))
-expectError(partialMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 2 }))
-expectError(partialMerge({}, { key: 2 }, { key: 'key' }))
-expectError(partialMerge({ a: [{}] }, { a: [{ key: 2 }] }, { key: 'key' }))
+expectError(declarativeMerge({}, {}, true))
+expectError(declarativeMerge({}, {}, { unknownOption: true }))
+expectError(declarativeMerge({}, {}, { key: 0 }))
+expectError(declarativeMerge({ a: 1 }, { b: 2 }))
+expectError(declarativeMerge({ c: { a: 1 } }, { c: { b: 2 } }))
+expectError(declarativeMerge({ a: [1] }, { a: [true] }))
+expectError(declarativeMerge({ a: [1] }, { a: { '1': true } }))
+expectError(declarativeMerge({ a: 1 }, { a: 2, _merge: 2 }))
+expectError(declarativeMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 2 }))
+expectError(declarativeMerge({}, { key: 2 }, { key: 'key' }))
+expectError(declarativeMerge({ a: [{}] }, { a: [{ key: 2 }] }, { key: 'key' }))
 expectError(
-  partialMerge(
+  declarativeMerge(
     { a: [{}] },
     { a: [{ [keySymbol]: 2 }] },
     { [keySymbol]: 'key' },

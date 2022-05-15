@@ -1,5 +1,5 @@
 import test from 'ava'
-import partialMerge from 'partial-merge'
+import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
 each(
@@ -31,7 +31,7 @@ each(
   ],
   ({ title }, { first, second, result }) => {
     test(`Arrays can be patched | ${title}`, (t) => {
-      t.deepEqual(partialMerge(first, second), result)
+      t.deepEqual(declarativeMerge(first, second), result)
     })
   },
 )
