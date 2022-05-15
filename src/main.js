@@ -1,6 +1,7 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
+import { parseSetFlag } from './set.js'
 
 // Merge objects deeply, shallowly, or both.
 // Properties that are:
@@ -51,18 +52,6 @@ const mergeValues = function (firstValue, secondValue, currentSet) {
   }
 
   return deepMergeObjects(firstValue, secondObject, currentSetA, childSet)
-}
-
-const parseSetFlag = function (secondObject, currentSet) {
-  // eslint-disable-next-line no-underscore-dangle
-  if (typeof secondObject._set !== 'boolean' && secondObject._set !== null) {
-    return { currentSet, childSet: currentSet, secondObject }
-  }
-
-  const { _set: setFlag, ...secondObjectA } = secondObject
-  return setFlag === null
-    ? { currentSet: false, childSet: true, secondObject: secondObjectA }
-    : { currentSet: setFlag, childSet: setFlag, secondObject: secondObjectA }
 }
 
 // eslint-disable-next-line max-params
