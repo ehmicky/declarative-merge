@@ -17,7 +17,7 @@ export const patchArray = function ({
 }) {
   return setArray(array, updates, {
     merge(firstValue, secondValue) {
-      return mergeValues(firstValue, secondValue, childMerge)
+      return mergeValues({ firstValue, secondValue, currentMerge: childMerge })
     },
   })
 }

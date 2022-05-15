@@ -30,11 +30,11 @@ import { deepMergeObjects, deepCloneObject } from './object.js'
 //  - If the first argument might use those formats, `partial-merge` should be
 //    applied to it first, using an empty object as first argument.
 export default function partialMerge(firstValue, secondValue) {
-  return mergeValues(firstValue, secondValue, DEFAULT_MERGE)
+  return mergeValues({ firstValue, secondValue, currentMerge: DEFAULT_MERGE })
 }
 
 // This function is called recursively, i.e. it is passed down as argument
-const mergeValues = function (firstValue, secondValue, currentMerge) {
+const mergeValues = function ({ firstValue, secondValue, currentMerge }) {
   if (!isPlainObj(secondValue)) {
     return secondValue
   }

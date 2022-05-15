@@ -57,10 +57,14 @@ const setSecondProps = function ({
 }) {
   // eslint-disable-next-line fp/no-loops
   for (const secondKey of getEnumKeys(secondObject)) {
-    const firstProp = getEnumValue(firstObject, secondKey)
-    const secondProp = secondObject[secondKey]
+    const firstValue = getEnumValue(firstObject, secondKey)
+    const secondValue = secondObject[secondKey]
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
-    newObject[secondKey] = mergeValues(firstProp, secondProp, childMerge)
+    newObject[secondKey] = mergeValues({
+      firstValue,
+      secondValue,
+      currentMerge: childMerge,
+    })
   }
 }
 
