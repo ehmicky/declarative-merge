@@ -105,6 +105,7 @@ partialMerge([{ id: 'a' }, { id: 'b', value: { name: 'Ann' } }, { id: 'c' }], {
 ```js
 partialMerge(['a', 'b', 'c'], { '*': 'X' }) // ['X', 'X', 'X']
 partialMerge(['a', 'b', 'c'], { '-1': 'X' }) // ['a', 'b', 'X']
+partialMerge(['a', 'b', 'c'], { 4: 'X' }) // ['a', 'b', 'c', undefined, 'X']
 ```
 
 ### Add
