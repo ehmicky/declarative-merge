@@ -18,7 +18,7 @@ import { set as setArray, test as isArrayPatch } from 'set-array'
 //  - If the first argument might use those formats, `not-deep-merge` should be
 //    applied to it first, using an empty object as first argument.
 export default function notDeepMerge(firstValue, secondValue) {
-  return deepMerge(firstValue, secondValue, false)
+  return deepMerge(firstValue, secondValue)
 }
 
 // eslint-disable-next-line complexity
