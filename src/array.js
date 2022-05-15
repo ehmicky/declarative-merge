@@ -1,6 +1,6 @@
 import { set as setArray, test as isUpdatesObject } from 'set-array'
 
-import { isDeleted, isNotDeleted } from './merge.js'
+import { isDeleted, isNotDeleted } from './delete.js'
 
 // Test whether the `secondObject` is an array `updates` object like
 // `{ [index]: values, ... }`

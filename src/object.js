@@ -1,7 +1,7 @@
 import isPlainObj from 'is-plain-obj'
 
+import { isDeleted } from './delete.js'
 import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
-import { isDeleted } from './merge.js'
 
 // Merge two objects deeply.
 export const deepMergeObjects = function ({

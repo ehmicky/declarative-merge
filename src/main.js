@@ -1,7 +1,8 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
-import { DEFAULT_MERGE, parseMergeFlag, isDeleted } from './merge.js'
+import { isDeleted } from './delete.js'
+import { DEFAULT_MERGE, parseMergeFlag } from './merge.js'
 import { deepMergeObjects, deepCloneObject } from './object.js'
 import { getOptions } from './options.js'
 
