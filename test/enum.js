@@ -2,14 +2,8 @@ import test from 'ava'
 import notDeepMerge from 'not-deep-merge'
 import { each } from 'test-each'
 
-const getNotEnumObj = function () {
-  const object = {}
-  // eslint-disable-next-line fp/no-mutating-methods
-  Object.defineProperty(object, 'notEnum', { value: 1, enumerable: false })
-  return object
-}
-
-const notEnumObj = getNotEnumObj()
+// eslint-disable-next-line fp/no-mutating-methods
+const notEnumObj = Object.defineProperty({}, 'notEnum', { value: 1 })
 
 // This also test that both arguments' plain objects are deeply cloned
 each(
