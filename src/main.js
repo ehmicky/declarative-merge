@@ -16,12 +16,8 @@ import { set as setArray, test as isArrayPatch } from 'set-array'
 //       priority
 //  - If the first argument might use those formats, `not-deep-merge` should be
 //    applied to it first, using an empty object as first argument.
-export default function notDeepMerge(firstValue, secondValue) {
-  return deepMerge(firstValue, secondValue)
-}
-
 // eslint-disable-next-line complexity
-const deepMerge = function (firstValue, secondValue) {
+export default function notDeepMerge(firstValue, secondValue) {
   if (!isPlainObj(secondValue)) {
     return secondValue
   }
@@ -31,7 +27,7 @@ const deepMerge = function (firstValue, secondValue) {
   }
 
   if (shouldPatchArray(firstValue, secondValue)) {
-    return setArray(firstValue, secondValue, { merge: deepMerge })
+    return setArray(firstValue, secondValue, { merge: notDeepMerge })
   }
 
   if (!isPlainObj(firstValue)) {
@@ -65,7 +61,7 @@ const deepMergeObjects = function (firstObject, secondObject) {
     const firstProp = getEnumValue(firstObject, key)
     const secondProp = secondObject[key]
     // eslint-disable-next-line fp/no-mutation
-    newObject[key] = deepMerge(firstProp, secondProp)
+    newObject[key] = notDeepMerge(firstProp, secondProp)
   }
 
   return newObject
