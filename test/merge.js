@@ -27,11 +27,6 @@ each(
       result: { aa: 1, bb: 2 },
     },
     {
-      first: { aa: 1 },
-      second: { bb: 2, _merge: 3 },
-      result: { aa: 1, bb: 2 },
-    },
-    {
       first: { aa: 1, _merge: 3 },
       second: { bb: 2 },
       result: { aa: 1, bb: 2, _merge: 3 },
@@ -109,4 +104,8 @@ each(
     })
   },
 )
+
+test('Invalid _merge value throws', (t) => {
+  t.throws(() => partialMerge({}, { _merge: true }))
+})
 /* eslint-enable max-lines */

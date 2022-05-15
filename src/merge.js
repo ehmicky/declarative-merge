@@ -23,7 +23,7 @@ export const parseMergeFlag = function (secondObject, currentMerge, key) {
 
   const { [key]: mergeFlag, ...secondObjectA } = secondObject
 
-  if (mergeFlag === undefined || !ALLOWED_MERGES.has(mergeFlag)) {
+  if (mergeFlag === undefined) {
     return {
       currentMerge,
       childMerge: currentMerge,
@@ -31,11 +31,26 @@ export const parseMergeFlag = function (secondObject, currentMerge, key) {
     }
   }
 
+  validateMergeFlag(mergeFlag, key)
+
   return {
     currentMerge: mergeFlag === DEEP_MERGE || mergeFlag === SHALLOW_MERGE,
     childMerge: mergeFlag === DEEP_MERGE,
     secondObject: secondObjectA,
   }
+}
+
+const validateMergeFlag = function (mergeFlag, key) {
+  if (!ALLOWED_MERGES.has(mergeFlag)) {
+    const allowedMerges = [...ALLOWED_MERGES].map(quoteString).join(', ')
+    throw new TypeError(
+      `"${key}: ${mergeFlag}" property must have one of the following values instead: ${allowedMerges}`,
+    )
+  }
+}
+
+const quoteString = function (value) {
+  return `"${value}"`
 }
 
 export const DEFAULT_MERGE = true
