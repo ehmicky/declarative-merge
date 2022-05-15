@@ -5,16 +5,16 @@ import { each } from 'test-each'
 each(
   [
     { firstValue: { aa: 1 }, secondValue: { bb: 2 }, result: { aa: 1, bb: 2 } },
+    {
+      firstValue: { cc: { aa: 1 } },
+      secondValue: { cc: { bb: 2 } },
+      result: { cc: { aa: 1, bb: 2 } },
+    },
     { firstValue: { aa: 1 }, secondValue: { aa: 2 }, result: { aa: 2 } },
     {
-      firstValue: { aa: { bb: 1 } },
-      secondValue: { aa: { bb: 2 } },
-      result: { aa: { bb: 2 } },
-    },
-    {
-      firstValue: { aa: { bb: 1 } },
-      secondValue: { aa: { cc: 2 } },
-      result: { aa: { bb: 1, cc: 2 } },
+      firstValue: { cc: { aa: 1 } },
+      secondValue: { cc: { aa: 2 } },
+      result: { cc: { aa: 2 } },
     },
     { firstValue: {}, secondValue: {}, result: {} },
   ],

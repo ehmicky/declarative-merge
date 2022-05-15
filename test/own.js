@@ -4,7 +4,7 @@ import notDeepMerge from 'not-deep-merge'
 test.serial(`Inherited properties are ignored in plain objects`, (t) => {
   // eslint-disable-next-line no-extend-native, fp/no-mutation
   Object.prototype.nonOwn = 1
-  const secondValue = { bb: 1 }
+  const secondValue = { aa: 1 }
   t.is(secondValue.nonOwn, 1)
   const result = notDeepMerge({}, secondValue)
   t.is(result.nonOwn, 1)
@@ -15,7 +15,7 @@ test.serial(`Inherited properties are ignored in plain objects`, (t) => {
 
 test(`Inherited properties are kept in other objects as part of the prototype`, (t) => {
   const prototype = { nonOwn: 1 }
-  const secondValue = { bb: 1, __proto__: prototype }
+  const secondValue = { aa: 1, __proto__: prototype }
   t.is(secondValue.nonOwn, 1)
   const result = notDeepMerge({}, secondValue)
   t.is(result.nonOwn, 1)
