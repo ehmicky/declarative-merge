@@ -11,7 +11,7 @@
   "scripts": {
     "test": "gulp test"
   },
-  "description": "Deeply merge objects. Or not.",
+  "description": "Merge objects/arrays deeply, shallowly, or both",
   "keywords": [
     "nodejs",
     "node",
