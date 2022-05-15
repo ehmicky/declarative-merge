@@ -1,11 +1,34 @@
 import { Updates } from 'set-array'
 
 /**
- * Modifies the merge mode.
+ *
+ * @example
+ * ```js
+ * ```
  */
-type MergeMode = 'deep' | 'shallow' | 'none'
+export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
+  firstValue: T,
+  secondValue: SecondValue<T, KeyOpt extends never ? never : KeyOpt>,
+  options?: Options<KeyOpt>,
+): T
 
+interface Options<KeyOpt> {
+  /**
+   * Customize the name of the property used to change the merge mode.
+   *
+   * @default "_merge"
+   */
+  key?: KeyOpt
+}
+
+/**
+ * `key` option's type
+ */
 type Key = string | symbol
+
+/**
+ * `key` option's default value
+ */
 type DefaultKey = '_merge'
 
 /**
@@ -21,23 +44,7 @@ type SecondValue<T, KeyOpt extends Key> = T extends (infer ArrayItem)[]
     } & { [KeyProp in KeyOpt]?: MergeMode }
   : T
 
-interface Options<KeyOpt> {
-  /**
-   * Customize the name of the property used to change the merge mode.
-   *
-   * @default "_merge"
-   */
-  key?: KeyOpt
-}
-
 /**
- *
- * @example
- * ```js
- * ```
+ * Modifies the merge mode.
  */
-export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
-  firstValue: T,
-  secondValue: SecondValue<T, KeyOpt extends never ? never : KeyOpt>,
-  options?: Options<KeyOpt>,
-): T
+type MergeMode = 'deep' | 'shallow' | 'none'
