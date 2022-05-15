@@ -54,10 +54,6 @@ const deepCloneSet = function (object) {
   return objectCopy
 }
 
-const deepClone = function (object) {
-  return deepMerge({}, object)
-}
-
 const shouldPatchArray = function (object) {
   return isArrayPatch(object) && Object.keys(object).length !== 0
 }
@@ -68,17 +64,19 @@ const patchArray = function (firstValue, updates) {
 }
 
 const deepMergeObjects = function (firstObject, secondObject) {
-  const newObject = {}
+  const newObject = deepClone(firstObject)
+  mergeObjects(firstObject, secondObject, newObject)
+  return newObject
+}
 
+const mergeObjects = function (firstObject, secondObject, newObject) {
   // eslint-disable-next-line fp/no-loops
   for (const key of getEnumKeys(secondObject)) {
     const firstProp = getEnumValue(firstObject, key)
     const secondProp = secondObject[key]
-    // eslint-disable-next-line fp/no-mutation
+    // eslint-disable-next-line fp/no-mutation, no-param-reassign
     newObject[key] = deepMerge(firstProp, secondProp)
   }
-
-  return newObject
 }
 
 const { propertyIsEnumerable: isEnum } = Object.prototype
@@ -93,4 +91,10 @@ const getEnumKeys = function (object) {
 
 const getEnumValue = function (object, key) {
   return isEnum.call(object, key) ? object[key] : undefined
+}
+
+const deepClone = function (object) {
+  const newObject = {}
+  mergeObjects({}, object, newObject)
+  return newObject
 }
