@@ -80,7 +80,7 @@ partialMerge({ one: ['a', 'b', 'c'], two: 2 }, { one: { 1: 'X' }, three: 3 })
 partialMerge(['a', 'b', 'c'], { 1: 'X', 2: 'Y' }) // ['a', 'X', 'Y']
 ```
 
-### Deep merge
+### Merge
 
 ```js
 // New properties are merged
@@ -171,7 +171,8 @@ Any object can change the merge mode using a `_merge` property with value
 [`"set"`](#no-merge) or [`"delete"`](#delete).
 
 Arrays [can be merged using objects](#arrays) where the keys are the array
-indices.
+indices. Values can be [updated](#update), [merged](#merge),
+[appended](#append), [inserted](#insert), [added](#add) or [deleted](#delete-1).
 
 The `_merge` property and array updates objects can only be used in
 `secondValue`. They are left as is in `firstValue`.
