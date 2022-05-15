@@ -36,14 +36,14 @@ each(
       result: { cc: { dd: { bb: 2 }, ff: 1 } },
     },
     {
-      first: { cc: { dd: { aa: 1 }, ff: 1 }, ee: 1 },
+      first: { cc: { dd: { aa: 1 }, ff: 0 }, ee: 1 },
       second: { cc: { dd: { bb: 2, _set: true }, _set: true }, _set: true },
       result: { cc: { dd: { bb: 2 } } },
     },
     {
-      first: { cc: { dd: { aa: 1 }, ff: 1 }, ee: 1 },
+      first: { cc: { dd: { aa: 1 }, ff: 2 }, ee: 1 },
       second: { cc: { dd: { bb: 2, _set: false }, _set: false }, _set: false },
-      result: { cc: { dd: { aa: 1, bb: 2 }, ff: 1 }, ee: 1 },
+      result: { cc: { dd: { aa: 1, bb: 2 }, ff: 2 }, ee: 1 },
     },
     {
       first: { cc: [1], aa: 3 },
@@ -57,8 +57,8 @@ each(
     },
     {
       first: { cc: [{ aa: 1 }] },
-      second: { cc: { 0: { bb: 2 } }, _set: false },
-      result: { cc: [{ aa: 1, bb: 2 }] },
+      second: { cc: { 0: { bb: 1 } }, _set: false },
+      result: { cc: [{ aa: 1, bb: 1 }] },
     },
     {
       first: { cc: [{ aa: 1 }] },
