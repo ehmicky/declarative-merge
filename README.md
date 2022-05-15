@@ -47,7 +47,9 @@ Or a network "patch" request.
 
 ```http
 PATCH /pets/0
+```
 
+```json
 {
   // Deep merge
   "capabilities": { "play": true },
