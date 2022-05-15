@@ -7,6 +7,7 @@ each(
     { first: [1], second: [2], result: [2] },
     { first: [{ aa: 1 }], second: [{ aa: 2 }], result: [{ aa: 2 }] },
     { first: [1], second: {}, result: [1] },
+    { first: [1], second: { 1: 3, aa: 2 }, result: { 1: 3, aa: 2 } },
     { first: undefined, second: {}, result: {} },
     { first: undefined, second: { aa: 1 }, result: { aa: 1 } },
     { first: true, second: {}, result: {} },
