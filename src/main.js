@@ -33,6 +33,7 @@ export default function partialMerge(firstValue, secondValue) {
   return mergeValues(firstValue, secondValue, false)
 }
 
+// This function is called recursively, i.e. it is passed down as argument
 const mergeValues = function (firstValue, secondValue, currentSet) {
   if (!isPlainObj(secondValue)) {
     return secondValue
