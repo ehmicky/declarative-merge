@@ -26,14 +26,14 @@ const mergeValues = function (firstValue, secondValue, parentSet) {
     return secondValue
   }
 
+  if (shouldPatchArray(firstValue, secondValue)) {
+    return patchArray(firstValue, secondValue, parentSet)
+  }
+
   const { set, secondObject } = parseSet(secondValue)
 
   if (set) {
     return deepCloneObject(secondObject, parentSet)
-  }
-
-  if (shouldPatchArray(firstValue, secondObject)) {
-    return patchArray(firstValue, secondObject, parentSet)
   }
 
   if (!isPlainObj(firstValue)) {
@@ -41,16 +41,6 @@ const mergeValues = function (firstValue, secondValue, parentSet) {
   }
 
   return deepMergeObjects(firstValue, secondObject, parentSet)
-}
-
-const parseSet = function (secondObject) {
-  // eslint-disable-next-line no-underscore-dangle
-  if (typeof secondObject._set !== 'boolean') {
-    return { secondObject }
-  }
-
-  const { _set: set, ...secondObjectA } = secondObject
-  return { set, secondObject: secondObjectA }
 }
 
 const shouldPatchArray = function (firstValue, secondObject) {
@@ -63,6 +53,16 @@ const patchArray = function (array, updates, parentSet) {
       return mergeValues(firstValue, secondValue, parentSet)
     },
   })
+}
+
+const parseSet = function (secondObject) {
+  // eslint-disable-next-line no-underscore-dangle
+  if (typeof secondObject._set !== 'boolean') {
+    return { secondObject }
+  }
+
+  const { _set: set, ...secondObjectA } = secondObject
+  return { set, secondObject: secondObjectA }
 }
 
 const deepMergeObjects = function (firstObject, secondObject, parentSet) {
