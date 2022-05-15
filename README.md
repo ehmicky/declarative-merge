@@ -6,7 +6,7 @@
 
 Merge objects/arrays declaratively.
 
-- Objects [deeply](#deep-merge), [shallowly](#shallow-merge), or
+- Objects: [deeply](#deep-merge), [shallowly](#shallow-merge), or
   [both](#nesting)
 - Arrays: items can be [updated](#update), [merged](#merge), [added](#add),
   [inserted](#insert), [appended](#append), [prepended](#prepend) or
@@ -25,14 +25,14 @@ extend: my-shared-config
 # Deep merge
 log:
   verbosity: silent
-  # Delete properties
-  output:
-    _merge: delete
   # Shallow merge
   provider:
     _merge: shallow
     name: redis
     type: local
+  # Delete properties
+  output:
+    _merge: delete
 
 rules:
   # Update arrays deeply
@@ -43,7 +43,7 @@ rules:
     name: appendedRule
 ```
 
-Or a network patch request.
+Or a server receiving network patch requests.
 
 ```http
 PATCH /pets/0
