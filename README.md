@@ -107,10 +107,13 @@ partialMerge(['a', 'b', 'c'], { '*': 'X' }) // ['X', 'X', 'X']
 partialMerge(['a', 'b', 'c'], { '-1': 'X' }) // ['a', 'b', 'X']
 ```
 
-### Append
+### Add
 
 ```js
-partialMerge(['a', 'b', 'c'], { '-0': 'X' }) // ['a', 'b', 'c', 'X']
+// Array of items can be used
+partialMerge(['a', 'b', 'c'], { 1: ['X', 'Y'] }) // ['a', 'X', 'Y', 'c']
+partialMerge(['a', 'b', 'c'], { 1: ['X'] }) // ['a', 'X', 'c']
+partialMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
 ```
 
 ### Insert
@@ -120,13 +123,17 @@ partialMerge(['a', 'b', 'c'], { '-0': 'X' }) // ['a', 'b', 'c', 'X']
 partialMerge(['a', 'b', 'c'], { '1+': 'X' }) // ['a', 'X', 'b', 'c']
 ```
 
-### Add
+### Append
 
 ```js
-// Array of items can be used
-partialMerge(['a', 'b', 'c'], { 1: ['X', 'Y'] }) // ['a', 'X', 'Y', 'c']
-partialMerge(['a', 'b', 'c'], { 1: ['X'] }) // ['a', 'X', 'c']
-partialMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
+partialMerge(['a', 'b', 'c'], { '-0': 'X' }) // ['a', 'b', 'c', 'X']
+partialMerge(['a', 'b', 'c'], { '-0': ['X', 'Y'] }) // ['a', 'b', 'c', 'X', 'Y']
+```
+
+### Prepend
+
+```js
+partialMerge(['a', 'b', 'c'], { '0+': ['X', 'Y'] }) // ['X', 'Y', 'a', 'b', 'c']
 ```
 
 ### Delete
@@ -164,7 +171,8 @@ value [`"deep"`](#deep-merge) (default), [`"shallow"`](#shallow-merge),
 
 Arrays [can be merged using objects](#arrays) where the keys are the
 [array indices](#update). Items can be [updated](#update), [merged](#merge),
-[appended](#append), [inserted](#insert), [added](#add) or [deleted](#delete-1).
+[added](#add), [inserted](#insert), [appended](#append), [prepended](#prepend)
+or [deleted](#delete-1).
 
 The `_merge` property and array updates objects can only be used in
 `secondValue`. They are left as is in `firstValue`.
