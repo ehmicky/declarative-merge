@@ -8,22 +8,22 @@ import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
 export const deepMergeObjects = function (
   firstObject,
   secondObject,
-  currentSet,
-  childSet,
+  currentMerge,
+  childMerge,
   mergeValues,
 ) {
   const newObject = {}
 
-  if (!currentSet) {
+  if (!currentMerge) {
     setFirstProps(firstObject, secondObject, newObject, mergeValues)
   }
 
-  setSecondProps(firstObject, secondObject, newObject, childSet, mergeValues)
+  setSecondProps(firstObject, secondObject, newObject, childMerge, mergeValues)
   return newObject
 }
 
 // All properties from the `firstObject` not in the `secondObject` are kept.
-// If `_set` is `true`, this is skipped.
+// If `_merge` is `true`, this is skipped.
 // Properties from the `firstObject` that are in the `secondObject` are still
 // set, even though they will be overridden, to keep the keys order.
 //  - However, they are not cloned, as a performance optimization since they
@@ -50,7 +50,7 @@ const setSecondProps = function (
   firstObject,
   secondObject,
   newObject,
-  childSet,
+  childMerge,
   mergeValues,
 ) {
   // eslint-disable-next-line fp/no-loops
@@ -58,7 +58,7 @@ const setSecondProps = function (
     const firstProp = getEnumValue(firstObject, secondKey)
     const secondProp = secondObject[secondKey]
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
-    newObject[secondKey] = mergeValues(firstProp, secondProp, childSet)
+    newObject[secondKey] = mergeValues(firstProp, secondProp, childMerge)
   }
 }
 
@@ -70,7 +70,7 @@ const deepClone = function (value, mergeValues) {
 //  - This ensures the original argument won't be modified by the user
 //  - Deep cloning might be expected from a deep merge by some users
 //  - This ensures the algorithm is performed recursively, so that:
-//     - `_set` property are removed
+//     - `_merge` property are removed
 //     - Non-enumerable and inherited properties are removed
 export const deepCloneObject = function (object, mergeValues) {
   return deepMergeObjects({}, object, true, true, mergeValues)

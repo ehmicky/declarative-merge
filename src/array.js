@@ -10,10 +10,10 @@ export const shouldPatchArray = function (firstValue, secondObject) {
 
 // Patch an array using an `updates` object
 // eslint-disable-next-line max-params
-export const patchArray = function (array, updates, childSet, mergeValues) {
+export const patchArray = function (array, updates, childMerge, mergeValues) {
   return setArray(array, updates, {
     merge(firstValue, secondValue) {
-      return mergeValues(firstValue, secondValue, childSet)
+      return mergeValues(firstValue, secondValue, childMerge)
     },
   })
 }

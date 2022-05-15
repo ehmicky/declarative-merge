@@ -1,6 +1,6 @@
 import { Updates } from 'set-array'
 
-type SetValue = boolean | null
+type MergeValue = boolean | null
 
 /**
  * Modifies the merge mode. Can be:
@@ -8,19 +8,21 @@ type SetValue = boolean | null
  *  - `null`: shallow merge
  *  - `true`: no merge
  */
-type SetAttribute<T> = T extends { _set?: infer U }
-  ? { _set?: SetValue | U }
-  : { _set?: SetValue }
+type MergeAttribute<T> = T extends { _merge?: infer U }
+  ? { _merge?: MergeValue | U }
+  : { _merge?: MergeValue }
 
 /**
  * The second value has the same shape as the first except:
- *  - Objects can modify the merge mode using a `_set` property
+ *  - Objects can modify the merge mode using a `_merge` property
  *  - Arrays can be "updates" objects instead like { [index]: item, ... }
  */
 type SecondValue<T> = T extends (infer ArrayItemType)[]
   ? SecondValue<ArrayItemType>[] | Updates<SecondValue<ArrayItemType>>
   : T extends object
-  ? { [U in Exclude<keyof T, '_set'>]?: SecondValue<T[U]> } & SetAttribute<T>
+  ? {
+      [U in Exclude<keyof T, '_merge'>]?: SecondValue<T[U]>
+    } & MergeAttribute<T>
   : T
 
 /**

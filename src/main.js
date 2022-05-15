@@ -1,8 +1,8 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
+import { parseMergeFlag } from './merge.js'
 import { deepMergeObjects, deepCloneObject } from './object.js'
-import { parseSetFlag } from './set.js'
 
 // Merge objects deeply, shallowly, or both.
 // Properties that are:
@@ -12,7 +12,7 @@ import { parseSetFlag } from './set.js'
 //  - Plain objects are deeply cloned.
 //  - Non-plain objects (and their children) are not cloned.
 // The merge mode can be specified on any object in the second argument with a
-// `_set` property:
+// `_merge` property:
 //  - Possible values:
 //     - `false` (def): deep merge
 //     - `null`: shallow merge
@@ -21,9 +21,9 @@ import { parseSetFlag } from './set.js'
 //    objects
 // If the first argument is an array and the second argument is a patch object
 // (like `{ 1: 'a', 3: 'f' }`, or an empty object), the array is patched.
-//  - It is patched regardless of whether `_set` is used
-//  - New elements are merged using the current `_set` value
-// `_set` and patch objects are only allowed in the second argument:
+//  - It is patched regardless of the current `_merge` value
+//  - New elements are merged using the current `_merge` value
+// `_merge` and patch objects are only allowed in the second argument:
 //  - They are considered normal properties in first argument
 //     - Reason: they would not make sense since the first argument has lower
 //       priority
@@ -34,19 +34,19 @@ export default function partialMerge(firstValue, secondValue) {
 }
 
 // This function is called recursively, i.e. it is passed down as argument
-const mergeValues = function (firstValue, secondValue, currentSet) {
+const mergeValues = function (firstValue, secondValue, currentMerge) {
   if (!isPlainObj(secondValue)) {
     return secondValue
   }
 
   const {
-    currentSet: currentSetA,
-    childSet,
+    currentMerge: currentMergeA,
+    childMerge,
     secondObject,
-  } = parseSetFlag(secondValue, currentSet)
+  } = parseMergeFlag(secondValue, currentMerge)
 
   if (shouldPatchArray(firstValue, secondObject)) {
-    return patchArray(firstValue, secondObject, childSet, mergeValues)
+    return patchArray(firstValue, secondObject, childMerge, mergeValues)
   }
 
   if (!isPlainObj(firstValue)) {
@@ -56,8 +56,8 @@ const mergeValues = function (firstValue, secondValue, currentSet) {
   return deepMergeObjects(
     firstValue,
     secondObject,
-    currentSetA,
-    childSet,
+    currentMergeA,
+    childMerge,
     mergeValues,
   )
 }
