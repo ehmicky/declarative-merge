@@ -6,7 +6,7 @@ import { DEFAULT_MERGE, parseMergeFlag } from './merge.js'
 import { deepMergeObjects, deepCloneObject } from './object.js'
 import { getOptions } from './options.js'
 
-// Merge objects deeply, shallowly, or both.
+// Merge objects.
 // Properties that are:
 //  - Inherited and non-enumerable are ignored.
 //  - Symbols are kept.
@@ -20,8 +20,8 @@ import { getOptions } from './options.js'
 //     - "shallow": shallow merge
 //     - "set": no merge
 //     - "delete": delete the property
-//  - Children can override that property, which is convenient when nesting
-//    objects
+//  - Children can override that property (except for "delete"), which is
+//    convenient when nesting objects
 // If the first argument is an array and the second argument is a patch object
 // (like `{ 1: 'a', 3: 'f' }`, or an empty object), the array is patched.
 //  - It is patched regardless of the current `_merge` value
@@ -38,8 +38,7 @@ import { getOptions } from './options.js'
 //     - The item is filtered out
 //     - This is performed after the `updates` indices are computed
 //  - At the top-level, `undefined` is returned.
-//  - Sibling and child properties will be ignored, including any child `_merge`
-//     - I.e. unlike other `_merge` modes, the parent has the priority here
+//  - Sibling and child properties will be ignored
 //  - Users can still set `undefined` or `null` values, which remains a separate
 //    operation from deletion
 export default function partialMerge(firstValue, secondValue, options) {

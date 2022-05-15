@@ -43,3 +43,7 @@ each(
     })
   },
 )
+
+test('The "key" option is validated', (t) => {
+  t.throws(() => partialMerge({}, {}, { key: 1 }))
+})
