@@ -8,11 +8,13 @@ import { Updates } from 'set-array'
  */
 export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
   firstValue: T,
-  // `KeyOpt extends never` is due to:
-  // https://github.com/microsoft/TypeScript/issues/49203
-  secondValue: SecondValue<T, KeyOpt extends never ? never : KeyOpt>,
+  secondValue: SecondValue<T, NoInfer<KeyOpt>>,
   options?: Options<KeyOpt>,
 ): T
+
+// Ensure `T` is not inferred.
+// See https://github.com/microsoft/TypeScript/issues/14829
+type NoInfer<T> = T extends any ? T : T
 
 interface Options<KeyOpt> {
   /**
