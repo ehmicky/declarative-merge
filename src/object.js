@@ -37,13 +37,10 @@ const setFirstProps = function (
 ) {
   // eslint-disable-next-line fp/no-loops
   for (const firstKey of getEnumKeys(firstObject)) {
-    // eslint-disable-next-line max-depth
-    if (!isEnum(secondObject, firstKey)) {
-      // eslint-disable-next-line fp/no-mutation, no-param-reassign
-      newObject[firstKey] = deepClone(firstObject[firstKey], mergeValues)
-    } else {
-      newObject[firstKey] = firstObject[firstKey]
-    }
+    // eslint-disable-next-line fp/no-mutation, no-param-reassign
+    newObject[firstKey] = isEnum(secondObject, firstKey)
+      ? firstObject[firstKey]
+      : deepClone(firstObject[firstKey], mergeValues)
   }
 }
 
