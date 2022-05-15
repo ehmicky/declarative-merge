@@ -17,7 +17,7 @@ Merge objects/arrays declaratively.
 This is intended for cases where objects/arrays manipulation in JavaScript is
 not available.
 
-For example, a library allowing shared configuration files to be extended.
+For example, a library where shared configuration files can be extended.
 
 ```yml
 extend: my-shared-config
