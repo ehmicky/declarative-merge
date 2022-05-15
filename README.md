@@ -49,7 +49,7 @@ Or a network "patch" request.
 PATCH /pets/0
 ```
 
-```json
+```hjson
 {
   // Deep merge
   "capabilities": { "play": true },
