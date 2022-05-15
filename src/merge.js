@@ -10,12 +10,12 @@
 // The `_merge` flag is removed from the object before processing it.
 // Other values are ignored.
 // `_merge` properties in the first value are kept as is, and cannot be set.
-export const parseMergeFlag = function (secondObject, currentMerge) {
-  if (!('_merge' in secondObject)) {
+export const parseMergeFlag = function (secondObject, currentMerge, key) {
+  if (!(key in secondObject)) {
     return { currentMerge, childMerge: currentMerge, secondObject }
   }
 
-  const { _merge: mergeFlag, ...secondObjectA } = secondObject
+  const { [key]: mergeFlag, ...secondObjectA } = secondObject
 
   if (mergeFlag === undefined || !ALLOWED_MERGES.has(mergeFlag)) {
     return {

@@ -50,7 +50,7 @@ const mergeValues = function ({ firstValue, secondValue, currentMerge, key }) {
     currentMerge: currentMergeA,
     childMerge,
     secondObject,
-  } = parseMergeFlag(secondValue, currentMerge)
+  } = parseMergeFlag(secondValue, currentMerge, key)
 
   if (shouldPatchArray(firstValue, secondObject)) {
     return patchArray({
