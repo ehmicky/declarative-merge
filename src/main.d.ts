@@ -8,6 +8,9 @@ import { Updates } from 'set-array'
  */
 export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
   firstValue: T,
+  // Without `KeyOpt extends never`, `DefaultKey` is not assigned before
+  // `SecondValue<...>` is instantiated, i.e. `Key` is passed instead.
+  // This would type all object properties as `_merge` attributes.
   secondValue: SecondValue<T, KeyOpt extends never ? never : KeyOpt>,
   options?: Options<KeyOpt>,
 ): T
