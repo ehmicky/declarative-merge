@@ -4,6 +4,9 @@ import { each } from 'test-each'
 
 // eslint-disable-next-line fp/no-mutating-methods
 const notEnumObj = Object.defineProperty({}, 'notEnum', { value: 1 })
+const notEnumSym = Symbol('notEnum')
+// eslint-disable-next-line fp/no-mutating-methods
+const notEnumSymObj = Object.defineProperty({}, notEnumSym, { value: 1 })
 
 // This also test that both arguments' plain objects are deeply cloned
 each(
@@ -15,6 +18,18 @@ each(
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {
       t.false('notEnum' in notDeepMerge(first, second).aa)
+    })
+  },
+)
+
+each(
+  [
+    { first: {}, second: { [notEnumSym]: notEnumSymObj } },
+    { first: { [notEnumSym]: notEnumSymObj }, second: {} },
+  ],
+  ({ title }, { first, second }) => {
+    test(`Non-enumerable symbols are not kept in result | ${title}`, (t) => {
+      t.false(notEnumSym in notDeepMerge(first, second)[notEnumSym])
     })
   },
 )
