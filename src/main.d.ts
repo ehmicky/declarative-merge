@@ -5,21 +5,21 @@ import { Updates } from 'set-array'
  */
 type MergeMode = 'deep' | 'shallow' | 'none'
 
+type Key = string | symbol
+type DefaultKey = '_merge'
+
 /**
  * The second value has the same shape as the first except:
  *  - Objects can modify the merge mode using a `_merge` property
  *  - Arrays can be "updates" objects instead like { [index]: item, ... }
  */
-type SecondValue<T, KeyOpt extends keyof any> = T extends (infer ArrayItem)[]
+type SecondValue<T, KeyOpt extends Key> = T extends (infer ArrayItem)[]
   ? SecondValue<ArrayItem, KeyOpt>[] | Updates<SecondValue<ArrayItem, KeyOpt>>
   : T extends object
   ? {
       [Prop in Exclude<keyof T, KeyOpt>]?: SecondValue<T[Prop], KeyOpt>
     } & { [KeyProp in KeyOpt]?: MergeMode }
   : T
-
-type Key = string | symbol
-type DefaultKey = '_merge'
 
 interface Options<KeyOpt> {
   /**
