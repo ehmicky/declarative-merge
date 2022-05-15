@@ -61,10 +61,21 @@ const parseSetFlag = function (secondObject, setFlag) {
   return { setFlag: setFlagA, secondObject: secondObjectA }
 }
 
-// TODO: split function into two
-// eslint-disable-next-line max-statements, complexity
+// TODO: refactor
+// eslint-disable-next-line complexity
 const deepMergeObjects = function (firstObject, secondObject, setFlag) {
   const newObject = {}
+
+  if (!setFlag) {
+    // eslint-disable-next-line fp/no-loops, max-depth
+    for (const firstKey of getEnumKeys(firstObject)) {
+      // eslint-disable-next-line max-depth
+      if (!isEnum.call(secondObject, firstKey)) {
+        // eslint-disable-next-line fp/no-mutation
+        newObject[firstKey] = deepClone(firstObject[firstKey], setFlag)
+      }
+    }
+  }
 
   // eslint-disable-next-line fp/no-loops
   for (const secondKey of getEnumKeys(secondObject)) {
@@ -72,19 +83,6 @@ const deepMergeObjects = function (firstObject, secondObject, setFlag) {
     const secondProp = secondObject[secondKey]
     // eslint-disable-next-line fp/no-mutation
     newObject[secondKey] = mergeValues(firstProp, secondProp, setFlag)
-  }
-
-  if (setFlag) {
-    return newObject
-  }
-
-  // eslint-disable-next-line fp/no-loops
-  for (const firstKey of getEnumKeys(firstObject)) {
-    // eslint-disable-next-line max-depth
-    if (!isEnum.call(newObject, firstKey)) {
-      // eslint-disable-next-line fp/no-mutation
-      newObject[firstKey] = deepClone(firstObject[firstKey], setFlag)
-    }
   }
 
   return newObject
