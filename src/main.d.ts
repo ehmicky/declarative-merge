@@ -21,6 +21,15 @@ type SecondValue<T, KeyOpt extends keyof any> = T extends (infer ArrayItem)[]
 type Key = string | symbol
 type DefaultKey = '_merge'
 
+interface Options<KeyOpt> {
+  /**
+   * Customize the name of the property used to change the merge mode.
+   *
+   * @default "_merge"
+   */
+  key?: KeyOpt
+}
+
 /**
  *
  * @example
@@ -30,10 +39,5 @@ type DefaultKey = '_merge'
 export default function partialMerge<T, KeyOpt extends Key = DefaultKey>(
   firstValue: T,
   secondValue: SecondValue<T, KeyOpt extends never ? KeyOpt : KeyOpt>,
-  /**
-   * Customize the name of the property used to change the merge mode.
-   *
-   * @default "_merge"
-   */
-  options?: { key?: KeyOpt },
+  options?: Options<KeyOpt>,
 ): T
