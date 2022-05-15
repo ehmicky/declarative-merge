@@ -39,7 +39,11 @@ partialMerge(
   { a: 10, b: { e: 20 }, _merge: 'set' },
 )
 // { a: 10, b: { e: 20 } }
+```
 
+### Nesting
+
+```js
 // `_merge` can be specified in nested objects
 partialMerge(
   { a: 1, b: { c: 2 }, d: 3 },
@@ -119,6 +123,7 @@ partialMerge(['a', 'b', 'c'], { '1+': 'X' }) // ['a', 'X', 'b', 'c']
 ### Add
 
 ```js
+// Array of items can be used
 partialMerge(['a', 'b', 'c'], { 1: ['X', 'Y'] }) // ['a', 'X', 'Y', 'c']
 partialMerge(['a', 'b', 'c'], { 1: ['X'] }) // ['a', 'X', 'c']
 partialMerge(['a', 'b', 'c'], { 1: [['X']] }) // ['a', ['X'], 'c']
@@ -149,16 +154,16 @@ not `require()`.
 `options` [`Options`](#options)\
 _Return value_: `any`
 
-Merge `firstValue` and `secondValue` deeply.
+Merge `firstValue` and `secondValue`.
 
 ### Merge mode
 
-Any object can change the merge mode using a `_merge` property with value
-[`"deep"`](#deep-merge) (default), [`"shallow"`](#shallow-merge),
+[Any object can change](#nesting) the merge mode using a `_merge` property with
+value [`"deep"`](#deep-merge) (default), [`"shallow"`](#shallow-merge),
 [`"set"`](#no-merge) or [`"delete"`](#delete).
 
-Arrays [can be merged using objects](#arrays) where the keys are the array
-indices. Values can be [updated](#update), [merged](#merge),
+Arrays [can be merged using objects](#arrays) where the keys are the
+[array indices](#update). Items can be [updated](#update), [merged](#merge),
 [appended](#append), [inserted](#insert), [added](#add) or [deleted](#delete-1).
 
 The `_merge` property and array updates objects can only be used in
@@ -166,7 +171,8 @@ The `_merge` property and array updates objects can only be used in
 
 ### Cloning
 
-The arguments are not modified. Plain objects and arrays are cloned.
+`firstValue` and `secondValue` are not modified. Plain objects and arrays are
+deeply cloned.
 
 [Inherited](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
 and
@@ -180,14 +186,17 @@ Options are an optional object.
 #### key
 
 _Type_: `string | symbol`\
-_Default_: `_merge`
+_Default_: `"_merge"`
 
-Name of the property used to specify the merge mode.\
-Using a symbol can be useful to prevent injections if the input is user-provided.
+Name of the property used to specify the [merge mode](#merge-mode).
 
 ```js
 partialMerge({ a: 1 }, { b: 2, _mergeMode: 'set' }, { key: '_mergeMode' }) // { b: 2 }
+```
 
+Symbols can be useful to prevent injections when the input is user-provided.
+
+```js
 const mergeMode = Symbol('mergeMode')
 partialMerge({ a: 1 }, { b: 2, [mergeMode]: 'set' }, { key: mergeMode }) // { b: 2 }
 ```
