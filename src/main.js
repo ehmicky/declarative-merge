@@ -22,31 +22,31 @@ export default function notDeepMerge(firstValue, secondValue) {
     return secondValue
   }
 
-  if (shouldSet(secondValue)) {
-    return deepCloneSet(secondValue)
+  const { set, secondObject } = parseSet(secondValue)
+
+  if (set) {
+    return deepCloneObject(secondObject)
   }
 
-  if (shouldPatchArray(firstValue, secondValue)) {
-    return setArray(firstValue, secondValue, { merge: notDeepMerge })
+  if (shouldPatchArray(firstValue, secondObject)) {
+    return setArray(firstValue, secondObject, { merge: notDeepMerge })
   }
 
   if (!isPlainObj(firstValue)) {
-    return deepCloneObject(secondValue)
+    return deepCloneObject(secondObject)
   }
 
-  return deepMergeObjects(firstValue, secondValue)
+  return deepMergeObjects(firstValue, secondObject)
 }
 
-const shouldSet = function (object) {
+const parseSet = function (secondObject) {
   // eslint-disable-next-line no-underscore-dangle
-  return object._set === true
-}
+  if (typeof secondObject._set !== 'boolean') {
+    return { secondObject }
+  }
 
-const deepCloneSet = function (object) {
-  const objectCopy = deepCloneObject(object)
-  // eslint-disable-next-line fp/no-delete, no-underscore-dangle
-  delete objectCopy._set
-  return objectCopy
+  const { _set: set, ...secondObjectA } = secondObject
+  return { set, secondObject: secondObjectA }
 }
 
 const shouldPatchArray = function (firstValue, secondObject) {
