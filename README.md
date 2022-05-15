@@ -4,7 +4,7 @@
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-4cc61e.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-4cc61e.svg?logo=medium)](https://medium.com/@ehmicky)
 
-Merge:
+Declaratively merge:
 
 - Objects [deeply](#deep-merge), [shallowly](#shallow-merge), or
   [both](#nesting)
@@ -14,8 +14,8 @@ Merge:
 
 # Use cases
 
-This was designed for declarative use cases where merging is needed but
-objects/arrays manipulation in JavaScript is not available.
+`partial-merge` is intended for cases where objects/arrays manipulation in
+JavaScript is not available.
 
 For example, a library allowing shared configuration file to be extended.
 
@@ -47,9 +47,7 @@ Or a network "patch" request.
 
 ```http
 PATCH /pets/0
-```
 
-```json
 {
   "capabilities": { "play": true },
   "title": { "name": "felix", "_merge": "shallow" },
