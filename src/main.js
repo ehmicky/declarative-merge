@@ -1,6 +1,7 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
+import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
 import { parseSetFlag } from './set.js'
 
 // Merge objects deeply, shallowly, or both.
@@ -75,7 +76,7 @@ const setFirstValues = function (firstObject, secondObject, newObject) {
   // eslint-disable-next-line fp/no-loops
   for (const firstKey of getEnumKeys(firstObject)) {
     // eslint-disable-next-line max-depth
-    if (!isEnum.call(secondObject, firstKey)) {
+    if (!isEnum(secondObject, firstKey)) {
       // eslint-disable-next-line fp/no-mutation, no-param-reassign
       newObject[firstKey] = deepClone(firstObject[firstKey])
     }
@@ -96,20 +97,6 @@ const setSecondValues = function (
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
     newObject[secondKey] = mergeValues(firstProp, secondProp, childSet)
   }
-}
-
-const { propertyIsEnumerable: isEnum } = Object.prototype
-
-const getEnumKeys = function (object) {
-  const keys = Object.keys(object)
-  const symbols = Object.getOwnPropertySymbols(object)
-  return symbols.length === 0
-    ? keys
-    : [...keys, ...symbols.filter((symbol) => isEnum.call(object, symbol))]
-}
-
-const getEnumValue = function (object, key) {
-  return isEnum.call(object, key) ? object[key] : undefined
 }
 
 const deepClone = function (value) {
