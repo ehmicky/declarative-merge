@@ -36,5 +36,8 @@ each(
 )
 
 test('Object properties order is kept', (t) => {
-  t.deepEqual(Object.keys(partialMerge({ aa: 1 }, { bb: 2 })), ['aa', 'bb'])
+  t.deepEqual(
+    Object.keys(partialMerge({ aa: 1, bb: 1, cc: 1 }, { cc: 2, aa: 2, dd: 2 })),
+    ['aa', 'bb', 'cc', 'dd'],
+  )
 })

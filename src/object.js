@@ -24,6 +24,10 @@ export const deepMergeObjects = function (
 
 // All properties from the `firstObject` not in the `secondObject` are kept.
 // If `_set` is `true`, this is skipped.
+// Properties from the `firstObject` that are in the `secondObject` are still
+// set, even though they will be overridden, to keep the keys order.
+//  - However, they are not cloned, as a performance optimization since they
+//    will be overridden anyway
 // eslint-disable-next-line max-params
 const setFirstProps = function (
   firstObject,
@@ -37,6 +41,8 @@ const setFirstProps = function (
     if (!isEnum(secondObject, firstKey)) {
       // eslint-disable-next-line fp/no-mutation, no-param-reassign
       newObject[firstKey] = deepClone(firstObject[firstKey], mergeValues)
+    } else {
+      newObject[firstKey] = firstObject[firstKey]
     }
   }
 }
