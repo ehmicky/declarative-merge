@@ -46,7 +46,12 @@ const mergeValues = function (firstValue, secondValue, currentMerge) {
   } = parseMergeFlag(secondValue, currentMerge)
 
   if (shouldPatchArray(firstValue, secondObject)) {
-    return patchArray(firstValue, secondObject, childMerge, mergeValues)
+    return patchArray({
+      array: firstValue,
+      updates: secondObject,
+      childMerge,
+      mergeValues,
+    })
   }
 
   if (!isPlainObj(firstValue)) {
