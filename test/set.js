@@ -11,6 +11,11 @@ each(
       result: { cc: { bb: 2 }, dd: { aa: 1, bb: 2 } },
     },
     {
+      first: { cc: { aa: 1 } },
+      second: { cc: { bb: 2 }, _set: true },
+      result: { cc: { bb: 2 } },
+    },
+    {
       first: { aa: 1 },
       second: { bb: 2, _set: false },
       result: { aa: 1, bb: 2 },
