@@ -57,21 +57,18 @@ const shouldPatchArray = function (firstValue, secondObject) {
   return Array.isArray(firstValue) && isArrayPatch(secondObject)
 }
 
-// TODO: is shallow clone enough?
 const deepMergeObjects = function (firstObject, secondObject) {
-  const newObject = deepClone(firstObject)
-  mergeObjects(firstObject, secondObject, newObject)
-  return newObject
-}
+  const newObject = { ...firstObject }
 
-const mergeObjects = function (firstObject, secondObject, newObject) {
   // eslint-disable-next-line fp/no-loops
   for (const key of getEnumKeys(secondObject)) {
     const firstProp = getEnumValue(firstObject, key)
     const secondProp = secondObject[key]
-    // eslint-disable-next-line fp/no-mutation, no-param-reassign
+    // eslint-disable-next-line fp/no-mutation
     newObject[key] = deepMerge(firstProp, secondProp)
   }
+
+  return newObject
 }
 
 const { propertyIsEnumerable: isEnum } = Object.prototype
@@ -89,7 +86,5 @@ const getEnumValue = function (object, key) {
 }
 
 const deepClone = function (object) {
-  const newObject = {}
-  mergeObjects({}, object, newObject)
-  return newObject
+  return deepMergeObjects({}, object)
 }
