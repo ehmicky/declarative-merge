@@ -12,8 +12,9 @@ Merge:
   [inserted](#insert), [appended](#append), [prepended](#prepend) or
   [deleted](#delete-1)
 
-Designed for declarative use cases (configuration files, etc.) where merging is
-needed but objects/arrays manipulation in JavaScript in not available.
+Designed for declarative use cases (configuration files, network requests, etc.)
+where merging is needed but objects/arrays manipulation in JavaScript is not
+available.
 
 # Examples
 
