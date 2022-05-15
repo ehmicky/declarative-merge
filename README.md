@@ -4,14 +4,19 @@
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-4cc61e.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-4cc61e.svg?logo=medium)](https://medium.com/@ehmicky)
 
-Merge objects/arrays deeply, shallowly, or both.
+Merge objects/arrays [deeply](#deep-merge), shallowly, or both.
 
 Work in progress!
 
 # Examples
 
-```js
+## Deep merge
 
+```js
+import partialMerge from 'partial-merge'
+
+partialMerge({ a: 1, b: { c: 2 }, d: 3 }, { a: 10, b: { e: 20 }, f: 40 })
+// { a: 10, b: { c: 2, e: 20 }, d: 3, f: 40 }
 ```
 
 # Install
