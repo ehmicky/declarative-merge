@@ -19,14 +19,8 @@ export const patchArray = function ({
   key,
 }) {
   const newArray = setArray(array, updates, {
-    merge(firstValue, secondValue) {
-      return mergeValues({
-        firstValue,
-        secondValue,
-        currentMerge: childMerge,
-        key,
-      })
-    },
+    merge: (firstValue, secondValue) =>
+      mergeValues({ firstValue, secondValue, currentMerge: childMerge, key }),
   })
   return newArray.some(isDeleted) ? newArray.filter(isNotDeleted) : newArray
 }

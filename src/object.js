@@ -90,14 +90,14 @@ const deepClone = function (value, mergeValues, key) {
 //  - This ensures the original argument won't be modified by the user
 //  - Deep cloning might be expected from a deep merge by some users
 //  - This ensures the algorithm is performed recursively, so that:
-//     - `_merge` property are removed
 //     - Non-enumerable and inherited properties are removed
+//     - `_merge` property are removed from the `secondObject`
 export const deepCloneObject = function (object, mergeValues, key) {
   return deepMergeObjects({
     firstObject: {},
     secondObject: object,
-    currentMerge: true,
-    childMerge: true,
+    currentMerge: false,
+    childMerge: false,
     mergeValues,
     key,
   })

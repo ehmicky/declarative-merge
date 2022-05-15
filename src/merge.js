@@ -56,8 +56,6 @@ const quoteString = function (value) {
   return `"${value}"`
 }
 
-export const DEFAULT_MERGE = true
-
 const DEEP_MERGE = 'deep'
 const SHALLOW_MERGE = 'shallow'
 const SET_MERGE = 'set'
@@ -68,3 +66,5 @@ const ALLOWED_MERGES = new Set([
   SET_MERGE,
   DELETE_MERGE,
 ])
+
+export const DEFAULT_MERGE = true
