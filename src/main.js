@@ -77,22 +77,16 @@ const deepMergeObjects = function (
   childSet,
 ) {
   const newObject = {}
-  setFirstValues(firstObject, secondObject, newObject, currentSet)
+
+  if (!currentSet) {
+    setFirstValues(firstObject, secondObject, newObject)
+  }
+
   setSecondValues(firstObject, secondObject, newObject, childSet)
   return newObject
 }
 
-// eslint-disable-next-line max-params
-const setFirstValues = function (
-  firstObject,
-  secondObject,
-  newObject,
-  currentSet,
-) {
-  if (currentSet) {
-    return
-  }
-
+const setFirstValues = function (firstObject, secondObject, newObject) {
   // eslint-disable-next-line fp/no-loops
   for (const firstKey of getEnumKeys(firstObject)) {
     // eslint-disable-next-line max-depth
