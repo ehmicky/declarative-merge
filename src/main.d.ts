@@ -49,4 +49,4 @@ type SecondValue<T, KeyOpt extends Key> = T extends (infer ArrayItem)[]
 /**
  * Modifies the merge mode.
  */
-type MergeMode = 'deep' | 'shallow' | 'set'
+type MergeMode = 'deep' | 'shallow' | 'set' | 'delete'

@@ -18,6 +18,7 @@ import { getOptions } from './options.js'
 //     - "deep" (def): deep merge
 //     - "shallow": shallow merge
 //     - "set": no merge
+//     - "delete": delete the property
 //  - Children can override that property, which is convenient when nesting
 //    objects
 // If the first argument is an array and the second argument is a patch object

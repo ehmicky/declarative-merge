@@ -4,6 +4,7 @@
 //  - "deep" (default): deep merge
 //  - "shallow": shallow merge
 //  - "set": no merge
+//  - "delete": delete the property
 // If `_merge` is `undefined`, it inherits its value from its parent.
 //  - Therefore, we distinguish between the current object's `_merge` and its
 //    children
@@ -31,14 +32,21 @@ export const parseMergeFlag = function (secondObject, currentMerge, key) {
   }
 
   return {
-    currentMerge: mergeFlag !== SET_MERGE,
+    currentMerge: mergeFlag === DEEP_MERGE || mergeFlag === SHALLOW_MERGE,
     childMerge: mergeFlag === DEEP_MERGE,
     secondObject: secondObjectA,
   }
 }
 
 export const DEFAULT_MERGE = true
+
 const DEEP_MERGE = 'deep'
 const SHALLOW_MERGE = 'shallow'
 const SET_MERGE = 'set'
-const ALLOWED_MERGES = new Set([DEEP_MERGE, SHALLOW_MERGE, SET_MERGE])
+const DELETE_MERGE = 'delete'
+const ALLOWED_MERGES = new Set([
+  DEEP_MERGE,
+  SHALLOW_MERGE,
+  SET_MERGE,
+  DELETE_MERGE,
+])
