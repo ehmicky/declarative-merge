@@ -16,8 +16,12 @@ import { set as setArray, test as isArrayPatch } from 'set-array'
 //       priority
 //  - If the first argument might use those formats, `partial-merge` should be
 //    applied to it first, using an empty object as first argument.
-// eslint-disable-next-line complexity
 export default function partialMerge(firstValue, secondValue) {
+  return mergeValues(firstValue, secondValue, false)
+}
+
+// eslint-disable-next-line complexity
+const mergeValues = function (firstValue, secondValue, parentSet) {
   if (!isPlainObj(secondValue)) {
     return secondValue
   }
@@ -25,18 +29,18 @@ export default function partialMerge(firstValue, secondValue) {
   const { set, secondObject } = parseSet(secondValue)
 
   if (set) {
-    return deepCloneObject(secondObject)
+    return deepCloneObject(secondObject, parentSet)
   }
 
   if (shouldPatchArray(firstValue, secondObject)) {
-    return setArray(firstValue, secondObject, { merge: partialMerge })
+    return patchArray(firstValue, secondObject, parentSet)
   }
 
   if (!isPlainObj(firstValue)) {
-    return deepCloneObject(secondObject)
+    return deepCloneObject(secondObject, parentSet)
   }
 
-  return deepMergeObjects(firstValue, secondObject)
+  return deepMergeObjects(firstValue, secondObject, parentSet)
 }
 
 const parseSet = function (secondObject) {
@@ -53,7 +57,15 @@ const shouldPatchArray = function (firstValue, secondObject) {
   return Array.isArray(firstValue) && isArrayPatch(secondObject)
 }
 
-const deepMergeObjects = function (firstObject, secondObject) {
+const patchArray = function (array, updates, parentSet) {
+  return setArray(array, updates, {
+    merge(firstValue, secondValue) {
+      return mergeValues(firstValue, secondValue, parentSet)
+    },
+  })
+}
+
+const deepMergeObjects = function (firstObject, secondObject, parentSet) {
   const newObject = {}
 
   // eslint-disable-next-line fp/no-loops
@@ -61,7 +73,7 @@ const deepMergeObjects = function (firstObject, secondObject) {
     const firstProp = getEnumValue(firstObject, secondKey)
     const secondProp = secondObject[secondKey]
     // eslint-disable-next-line fp/no-mutation
-    newObject[secondKey] = partialMerge(firstProp, secondProp)
+    newObject[secondKey] = mergeValues(firstProp, secondProp, parentSet)
   }
 
   // eslint-disable-next-line fp/no-loops
@@ -69,7 +81,7 @@ const deepMergeObjects = function (firstObject, secondObject) {
     // eslint-disable-next-line max-depth
     if (!isEnum.call(newObject, firstKey)) {
       // eslint-disable-next-line fp/no-mutation
-      newObject[firstKey] = deepClone(firstObject[firstKey])
+      newObject[firstKey] = deepClone(firstObject[firstKey], parentSet)
     }
   }
 
@@ -90,10 +102,10 @@ const getEnumValue = function (object, key) {
   return isEnum.call(object, key) ? object[key] : undefined
 }
 
-const deepClone = function (value) {
-  return isPlainObj(value) ? deepCloneObject(value) : value
+const deepClone = function (value, parentSet) {
+  return isPlainObj(value) ? deepCloneObject(value, parentSet) : value
 }
 
-const deepCloneObject = function (object) {
-  return deepMergeObjects({}, object)
+const deepCloneObject = function (object, parentSet) {
+  return deepMergeObjects({}, object, parentSet)
 }
