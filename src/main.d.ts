@@ -15,13 +15,11 @@ interface SetAttribute {
  *  - Objects can modify the merge mode using a `_set` property
  *  - Arrays can be "updates" objects instead like { [index]: item, ... }
  */
-type SecondValue<T> = {
-  [U in keyof T]?: T[U] extends (infer ArrayItemType)[]
-    ? T[U] | Updates<ArrayItemType>
-    : T[U] extends object
-    ? SecondValue<T[U]> & SetAttribute
-    : T[U]
-}
+type SecondValue<T> = T extends (infer ArrayItemType)[]
+  ? SecondValue<ArrayItemType>[] | Updates<SecondValue<ArrayItemType>>
+  : T extends object
+  ? { [U in keyof T]?: SecondValue<T[U]> } & SetAttribute
+  : T
 
 /**
  *
