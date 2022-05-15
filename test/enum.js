@@ -3,7 +3,7 @@ import notDeepMerge from 'not-deep-merge'
 import { each } from 'test-each'
 
 const getNotEnumObj = function () {
-  const object = { enum: 1 }
+  const object = {}
   // eslint-disable-next-line fp/no-mutating-methods
   Object.defineProperty(object, 'notEnum', { value: 1, enumerable: false })
   return object
