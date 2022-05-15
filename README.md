@@ -26,21 +26,11 @@ not `require()`.
 
 # API
 
-## partialMerge(firstValue, secondValue, options?)
+## partialMerge(firstValue, secondValue)
 
 `firstValue` `any`\
 `secondValue` `any`\
-[`options` `object?`](#options)\
 _Return value_: `any`
-
-### Options
-
-Options are an optional plain object.
-
-#### mutate
-
-_Type_: `boolean`\
-_Default_: `false`
 
 # Support
 
