@@ -70,6 +70,12 @@ each(
       second: { cc: { 0: { bb: 2, _set: true }, 1: { bb: 2, _set: false } } },
       result: { cc: [{ bb: 2 }, { aa: 1, bb: 2 }] },
     },
+    {
+      first: { cc: { aa: 1 }, dd: 1 },
+      // eslint-disable-next-line unicorn/no-null
+      second: { cc: { bb: 2 }, ee: 2, _set: null },
+      result: { cc: { bb: 2 }, dd: 1, ee: 2 },
+    },
   ],
   ({ title }, { first, second, result }) => {
     test(`Objects with _set: true are not merged | ${title}`, (t) => {
