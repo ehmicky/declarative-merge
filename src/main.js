@@ -8,9 +8,8 @@ import { set as setArray, test as isArrayPatch } from 'set-array'
 // not cloned.
 // If the second argument is an object with a property `_set: true`, the first
 // argument is overridden instead of being merged to.
-// If the second argument is an array patch object (like `{ 1: 'a', 3: 'f' }`),
-// the first argument is patched as an array. If it is not an array, an empty
-// array is used instead.
+// If the first argument is an array and the second argument is a patch object
+// (like `{ 1: 'a', 3: 'f' }`, or an empty object), the array is patched.
 // `_set` and patch objects are only allowed in the second argument:
 //  - They are considered normal properties in first argument
 //     - Reason: they would not make sense since the first argument has lower
@@ -31,8 +30,8 @@ const deepMerge = function (firstValue, secondValue) {
     return deepCloneSet(secondValue)
   }
 
-  if (shouldPatchArray(secondValue)) {
-    return patchArray(firstValue, secondValue)
+  if (shouldPatchArray(firstValue, secondValue)) {
+    return setArray(firstValue, secondValue, { merge: deepMerge })
   }
 
   if (!isPlainObj(firstValue)) {
@@ -54,15 +53,11 @@ const deepCloneSet = function (object) {
   return objectCopy
 }
 
-const shouldPatchArray = function (object) {
-  return isArrayPatch(object) && Object.keys(object).length !== 0
+const shouldPatchArray = function (firstValue, secondObject) {
+  return Array.isArray(firstValue) && isArrayPatch(secondObject)
 }
 
-const patchArray = function (firstValue, updates) {
-  const array = Array.isArray(firstValue) ? firstValue : []
-  return setArray(array, updates, { merge: deepMerge })
-}
-
+// TODO: is shallow clone enough?
 const deepMergeObjects = function (firstObject, secondObject) {
   const newObject = deepClone(firstObject)
   mergeObjects(firstObject, secondObject, newObject)
