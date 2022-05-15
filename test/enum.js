@@ -13,7 +13,7 @@ each(
   [
     { first: {}, second: { aa: notEnumObj } },
     { first: { aa: notEnumObj }, second: {} },
-    { first: {}, second: { aa: notEnumObj, _merge: 'none' } },
+    { first: {}, second: { aa: notEnumObj, _merge: 'set' } },
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {

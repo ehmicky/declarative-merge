@@ -29,7 +29,7 @@ export const deepMergeObjects = function ({
 }
 
 // All properties from the `firstObject` not in the `secondObject` are kept.
-// If `_merge` is "none", this is skipped.
+// If `_merge` is "set", this is skipped.
 // Properties from the `firstObject` that are in the `secondObject` are still
 // set, even though they will be overridden, to keep the keys order.
 //  - However, they are not cloned, as a performance optimization since they

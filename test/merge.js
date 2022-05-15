@@ -5,15 +5,15 @@ import { each } from 'test-each'
 
 each(
   [
-    { first: { aa: 1 }, second: { bb: 2, _merge: 'none' }, result: { bb: 2 } },
+    { first: { aa: 1 }, second: { bb: 2, _merge: 'set' }, result: { bb: 2 } },
     {
       first: { cc: { aa: 1 }, dd: { aa: 1 } },
-      second: { cc: { bb: 2, _merge: 'none' }, dd: { bb: 2 } },
+      second: { cc: { bb: 2, _merge: 'set' }, dd: { bb: 2 } },
       result: { cc: { bb: 2 }, dd: { aa: 1, bb: 2 } },
     },
     {
       first: { cc: { aa: 1 } },
-      second: { cc: { bb: 2 }, _merge: 'none' },
+      second: { cc: { bb: 2 }, _merge: 'set' },
       result: { cc: { bb: 2 } },
     },
     {
@@ -44,16 +44,16 @@ each(
     {
       first: { cc: { dd: { aa: 1 }, ff: 1 }, ee: 1 },
       second: {
-        cc: { dd: { bb: 2, _merge: 'none' }, _merge: 'deep' },
-        _merge: 'none',
+        cc: { dd: { bb: 2, _merge: 'set' }, _merge: 'deep' },
+        _merge: 'set',
       },
       result: { cc: { dd: { bb: 2 }, ff: 1 } },
     },
     {
       first: { cc: { dd: { aa: 1 }, ff: 0 }, ee: 1 },
       second: {
-        cc: { dd: { bb: 2, _merge: 'none' }, _merge: 'none' },
-        _merge: 'none',
+        cc: { dd: { bb: 2, _merge: 'set' }, _merge: 'set' },
+        _merge: 'set',
       },
       result: { cc: { dd: { bb: 2 } } },
     },
@@ -67,17 +67,17 @@ each(
     },
     {
       first: { cc: [1], aa: 3 },
-      second: { cc: { 1: 2 }, bb: 2, _merge: 'none' },
+      second: { cc: { 1: 2 }, bb: 2, _merge: 'set' },
       result: { cc: [1, 2], bb: 2 },
     },
     {
       first: { cc: [{ aa: 1 }] },
-      second: { cc: { 0: { bb: 2 } }, _merge: 'none' },
+      second: { cc: { 0: { bb: 2 } }, _merge: 'set' },
       result: { cc: [{ bb: 2 }] },
     },
     {
       first: { cc: [{ aa: 1 }] },
-      second: { cc: { 0: { bb: 0 }, _merge: undefined }, _merge: 'none' },
+      second: { cc: { 0: { bb: 0 }, _merge: undefined }, _merge: 'set' },
       result: { cc: [{ bb: 0 }] },
     },
     {
@@ -87,13 +87,13 @@ each(
     },
     {
       first: { cc: [{ aa: 1 }] },
-      second: { cc: { 0: { bb: 2 }, _merge: 'none' } },
+      second: { cc: { 0: { bb: 2 }, _merge: 'set' } },
       result: { cc: [{ bb: 2 }] },
     },
     {
       first: { cc: [{ aa: 1 }, { aa: 1 }] },
       second: {
-        cc: { 0: { bb: 2, _merge: 'none' }, 1: { bb: 2, _merge: 'deep' } },
+        cc: { 0: { bb: 2, _merge: 'set' }, 1: { bb: 2, _merge: 'deep' } },
       },
       result: { cc: [{ bb: 2 }, { aa: 1, bb: 2 }] },
     },
