@@ -77,8 +77,8 @@ each(
     },
     {
       first: { cc: [{ aa: 1 }] },
-      second: { cc: { 0: { bb: 2 }, _merge: undefined }, _merge: 'none' },
-      result: { cc: [{ bb: 2 }] },
+      second: { cc: { 0: { bb: 0 }, _merge: undefined }, _merge: 'none' },
+      result: { cc: [{ bb: 0 }] },
     },
     {
       first: { cc: [{ aa: 1 }] },
