@@ -1,5 +1,7 @@
 import { set as setArray, test as isUpdatesObject } from 'set-array'
 
+import { isDeleted, isNotDeleted } from './merge.js'
+
 // Test whether the `secondObject` is an array `updates` object like
 // `{ [index]: values, ... }`
 // Also confirms the `firstValue` is an array, so we are sure the user intended
@@ -16,7 +18,7 @@ export const patchArray = function ({
   mergeValues,
   key,
 }) {
-  return setArray(array, updates, {
+  const newArray = setArray(array, updates, {
     merge(firstValue, secondValue) {
       return mergeValues({
         firstValue,
@@ -26,4 +28,5 @@ export const patchArray = function ({
       })
     },
   })
+  return newArray.some(isDeleted) ? newArray.filter(isNotDeleted) : newArray
 }

@@ -1,7 +1,7 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
-import { DEFAULT_MERGE, parseMergeFlag } from './merge.js'
+import { DEFAULT_MERGE, parseMergeFlag, isDeleted } from './merge.js'
 import { deepMergeObjects, deepCloneObject } from './object.js'
 import { getOptions } from './options.js'
 
@@ -31,14 +31,25 @@ import { getOptions } from './options.js'
 //       priority
 //  - If the first argument might use those formats, `partial-merge` should be
 //    applied to it first, using an empty object as first argument.
+// When `_merge: "delete"` is used:
+//  - The property is deleted instead.
+//  - Inside an array update:
+//     - The item is filtered out
+//     - This is performed after the `updates` indices are computed
+//  - At the top-level, `undefined` is returned.
+//  - Sibling and child properties will be ignored, including any child `_merge`
+//     - I.e. unlike other `_merge` modes, the parent has the priority here
+//  - Users can still set `undefined` or `null` values, which remains a separate
+//    operation from deletion
 export default function partialMerge(firstValue, secondValue, options) {
   const { key } = getOptions(options)
-  return mergeValues({
+  const mergedValue = mergeValues({
     firstValue,
     secondValue,
     currentMerge: DEFAULT_MERGE,
     key,
   })
+  return isDeleted(mergedValue) ? undefined : mergedValue
 }
 
 // This function is called recursively, i.e. it is passed down as argument
@@ -50,9 +61,30 @@ const mergeValues = function ({ firstValue, secondValue, currentMerge, key }) {
   const {
     currentMerge: currentMergeA,
     childMerge,
+    deleted,
     secondObject,
   } = parseMergeFlag(secondValue, currentMerge, key)
 
+  if (deleted !== undefined) {
+    return deleted
+  }
+
+  return mergeSecondObject({
+    firstValue,
+    secondObject,
+    currentMerge: currentMergeA,
+    childMerge,
+    key,
+  })
+}
+
+const mergeSecondObject = function ({
+  firstValue,
+  secondObject,
+  currentMerge,
+  childMerge,
+  key,
+}) {
   if (shouldPatchArray(firstValue, secondObject)) {
     return patchArray({
       array: firstValue,
@@ -70,7 +102,7 @@ const mergeValues = function ({ firstValue, secondValue, currentMerge, key }) {
   return deepMergeObjects({
     firstObject: firstValue,
     secondObject,
-    currentMerge: currentMergeA,
+    currentMerge,
     childMerge,
     mergeValues,
     key,

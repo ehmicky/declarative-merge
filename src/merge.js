@@ -36,6 +36,7 @@ export const parseMergeFlag = function (secondObject, currentMerge, key) {
   return {
     currentMerge: mergeFlag === DEEP_MERGE || mergeFlag === SHALLOW_MERGE,
     childMerge: mergeFlag === DEEP_MERGE,
+    deleted: getDeleted(mergeFlag),
     secondObject: secondObjectA,
   }
 }
@@ -52,6 +53,20 @@ const validateMergeFlag = function (mergeFlag, key) {
 const quoteString = function (value) {
   return `"${value}"`
 }
+
+const getDeleted = function (mergeFlag) {
+  return mergeFlag === DELETE_MERGE ? DELETED_SYM : undefined
+}
+
+export const isNotDeleted = function (value) {
+  return !isDeleted(value)
+}
+
+export const isDeleted = function (value) {
+  return value === DELETED_SYM
+}
+
+const DELETED_SYM = Symbol('deleted')
 
 export const DEFAULT_MERGE = true
 

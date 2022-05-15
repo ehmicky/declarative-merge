@@ -1,6 +1,7 @@
 import isPlainObj from 'is-plain-obj'
 
 import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
+import { isDeleted } from './merge.js'
 
 // Merge two objects deeply.
 export const deepMergeObjects = function ({
@@ -63,13 +64,21 @@ const setSecondProps = function ({
   for (const secondKey of getEnumKeys(secondObject)) {
     const firstValue = getEnumValue(firstObject, secondKey)
     const secondValue = secondObject[secondKey]
-    // eslint-disable-next-line fp/no-mutation, no-param-reassign
-    newObject[secondKey] = mergeValues({
+    const newValue = mergeValues({
       firstValue,
       secondValue,
       currentMerge: childMerge,
       key,
     })
+
+    // eslint-disable-next-line max-depth
+    if (isDeleted(newValue)) {
+      // eslint-disable-next-line fp/no-delete, no-param-reassign
+      delete newObject[secondKey]
+    } else {
+      // eslint-disable-next-line fp/no-mutation, no-param-reassign
+      newObject[secondKey] = newValue
+    }
   }
 }
 
