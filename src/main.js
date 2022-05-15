@@ -53,11 +53,11 @@ const mergeValues = function (firstValue, secondValue, currentMerge) {
     return deepCloneObject(secondObject, mergeValues)
   }
 
-  return deepMergeObjects(
-    firstValue,
+  return deepMergeObjects({
+    firstObject: firstValue,
     secondObject,
-    currentMergeA,
+    currentMerge: currentMergeA,
     childMerge,
     mergeValues,
-  )
+  })
 }

@@ -3,15 +3,13 @@ import isPlainObj from 'is-plain-obj'
 import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
 
 // Merge two objects deeply.
-// Pass positional arguments for performance reasons.
-// eslint-disable-next-line max-params
-export const deepMergeObjects = function (
+export const deepMergeObjects = function ({
   firstObject,
   secondObject,
   currentMerge,
   childMerge,
   mergeValues,
-) {
+}) {
   const newObject = {}
 
   if (currentMerge) {
@@ -73,5 +71,11 @@ const deepClone = function (value, mergeValues) {
 //     - `_merge` property are removed
 //     - Non-enumerable and inherited properties are removed
 export const deepCloneObject = function (object, mergeValues) {
-  return deepMergeObjects({}, object, true, true, mergeValues)
+  return deepMergeObjects({
+    firstObject: {},
+    secondObject: object,
+    currentMerge: true,
+    childMerge: true,
+    mergeValues,
+  })
 }
