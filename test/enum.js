@@ -11,6 +11,7 @@ const getNonEnumObj = function () {
 
 const nonEnumObj = getNonEnumObj()
 
+// This also test that both arguments' plain objects are deeply cloned
 each(
   [
     { firstValue: {}, secondValue: { aa: nonEnumObj } },
