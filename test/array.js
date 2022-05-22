@@ -23,6 +23,11 @@ each(
       result: [3],
     })),
     {
+      first: {},
+      second: { aa: [{ bb: { 0: 1 } }] },
+      result: { aa: [{ bb: [1] }] },
+    },
+    {
       first: { aa: [1], bb: 2 },
       second: { aa: { 0: 3 } },
       result: { aa: [3], bb: 2 },
