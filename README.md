@@ -274,6 +274,9 @@ declarativeMerge({ a: 1 }, { b: 2, [mergeMode]: 'set' }, { key: mergeMode }) // 
 
 - [`set-array`](https://github.com/ehmicky/set-array): underlying module to
   [merge arrays](#arrays)
+- [`wild-wild-utils`](https://github.com/ehmicky/wild-wild-utils): apply
+  `declarative-merge` on multiple properties at once using this module's
+  [`merge()` method](https://github.com/ehmicky/wild-wild-utils#mergetarget-query-value-options)
 
 # Support
 
