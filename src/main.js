@@ -23,8 +23,10 @@ import { getOptions } from './options.js'
 //     - "delete": delete the property
 //  - Children can override that property (except for "delete"), which is
 //    convenient when nesting objects
-// If the first argument is an array and the second argument is a patch object
-// (like `{ 1: 'a', 3: 'f' }`, or an empty object), the array is patched.
+// If the second argument is a patch object (like `{ 1: 'a', 3: 'f' }`), the
+// first value's property is patched as an array.
+//  - If it is not an array (including `undefined`), an empty array is used
+//    instead
 //  - It is patched regardless of the current `_merge` value
 //  - New elements are merged using the current `_merge` value
 // `_merge` and patch objects are only allowed in the second argument:
@@ -86,9 +88,9 @@ const mergeSecondObject = function ({
   childMerge,
   key,
 }) {
-  if (shouldPatchArray(firstValue, secondObject)) {
+  if (shouldPatchArray(secondObject)) {
     return patchArray({
-      array: firstValue,
+      firstValue,
       updates: secondObject,
       childMerge,
       mergeValues,

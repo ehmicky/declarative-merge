@@ -2,16 +2,26 @@ import test from 'ava'
 import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
+const symbolKey = Symbol('key')
 each(
   [
     { first: [1], second: [2], result: [2] },
     { first: [{ aa: 1 }], second: [{ aa: 2 }], result: [{ aa: 2 }] },
-    { first: [1], second: {}, result: [1] },
-    { first: [1], second: { 1: 3, aa: 2 }, result: { 1: 3, aa: 2 } },
-    { first: undefined, second: {}, result: {} },
-    { first: undefined, second: { aa: 1 }, result: { aa: 1 } },
-    { first: true, second: {}, result: {} },
-    { first: true, second: { aa: 1 }, result: { aa: 1 } },
+    ...['aa', symbolKey].map((key) => ({
+      first: [1],
+      second: { 1: 3, [key]: 2 },
+      result: { 1: 3, [key]: 2 },
+    })),
+    ...[undefined, true, [1]].map((first) => ({
+      first,
+      second: {},
+      result: {},
+    })),
+    ...[undefined, true, {}, { bb: 2 }].map((first) => ({
+      first,
+      second: { 0: 3 },
+      result: [3],
+    })),
     {
       first: { aa: [1], bb: 2 },
       second: { aa: { 0: 3 } },

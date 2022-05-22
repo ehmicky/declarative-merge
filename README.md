@@ -11,8 +11,8 @@ Merge objects/arrays declaratively.
 - Objects: [deeply](#deep-merge), [shallowly](#shallow-merge), or
   [both](#nesting)
 - Arrays: items can be [updated](#update), [merged](#merge), [added](#add),
-  [inserted](#insert), [appended](#append), [prepended](#prepend) or
-  [deleted](#delete-1)
+  [inserted](#insert), [appended](#append), [prepended](#prepend),
+  [deleted](#delete-1) or [set](#set)
 
 # Use cases
 
@@ -203,6 +203,13 @@ declarativeMerge(['a', 'b', 'c'], { '0+': ['X', 'Y'] }) // ['X', 'Y', 'a', 'b', 
 declarativeMerge(['a', 'b', 'c'], { 1: [] }) // ['a', 'c']
 ```
 
+### Set
+
+```js
+declarativeMerge({}, { one: { 0: 'X', 2: 'Z' } }) // { one: ['X', undefined, 'Z'] }
+declarativeMerge({ one: true }, { one: { 0: 'X', 2: 'Z' } }) // { one: ['X', undefined, 'Z'] }
+```
+
 # Install
 
 ```bash
@@ -232,8 +239,8 @@ value [`"deep"`](#deep-merge) (default), [`"shallow"`](#shallow-merge),
 
 Arrays [can be merged using objects](#arrays) where the keys are the
 [array indices](#update). Items can be [updated](#update), [merged](#merge),
-[added](#add), [inserted](#insert), [appended](#append), [prepended](#prepend)
-or [deleted](#delete-1).
+[added](#add), [inserted](#insert), [appended](#append), [prepended](#prepend),
+[deleted](#delete-1) or [set](#set).
 
 The `_merge` property and array updates objects can only be used in
 `secondValue`. They are left as is in `firstValue`.

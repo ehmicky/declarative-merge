@@ -7,8 +7,8 @@ import { Updates } from 'set-array'
  * value `"deep"` (default), `"shallow"`, `"set"` or `"delete"`.
  *
  * Arrays can be merged using objects where the keys are the array indices.
- * Items can be updated, merged, added, inserted, appended, prepended or
- * deleted.
+ * Items can be updated, merged, added, inserted, appended, prepended, deleted
+ * or set.
  *
  * `firstValue` and `secondValue` are not modified. Plain objects and arrays
  * are deeply cloned. Inherited and non-enumerable properties are ignored.
@@ -102,6 +102,10 @@ import { Updates } from 'set-array'
  *
  * // Delete
  * declarativeMerge(['a', 'b', 'c'], { 1: [] }) // ['a', 'c']
+ *
+ * // Set
+ * declarativeMerge({}, { one: { 0: 'X', 2: 'Z' } }) // { one: ['X', undefined, 'Z'] }
+ * declarativeMerge({ one: true }, { one: { 0: 'X', 2: 'Z' } }) // { one: ['X', undefined, 'Z'] }
  * ```
  */
 export default function declarativeMerge<T, KeyOpt extends Key = DefaultKey>(
