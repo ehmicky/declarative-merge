@@ -1,6 +1,6 @@
 import { set as setArray, test as isUpdatesObject } from 'set-array'
 
-import { isDeleted, isNotDeleted } from './delete.js'
+import { removeDeletedItems } from './delete.js'
 
 // Test whether the `secondObject` is an array `updates` object like
 // `{ [index]: values, ... }`
@@ -22,5 +22,5 @@ export const patchArray = function ({
     merge: (firstValue, secondValue) =>
       mergeValues({ firstValue, secondValue, currentMerge: childMerge, key }),
   })
-  return newArray.some(isDeleted) ? newArray.filter(isNotDeleted) : newArray
+  return removeDeletedItems(newArray)
 }

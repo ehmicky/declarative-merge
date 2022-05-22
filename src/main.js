@@ -1,9 +1,10 @@
 import isPlainObj from 'is-plain-obj'
 
 import { shouldPatchArray, patchArray } from './array.js'
+import { cloneSecondValue } from './clone.js'
 import { isDeleted } from './delete.js'
 import { DEFAULT_MERGE, parseMergeFlag } from './merge.js'
-import { deepMergeObjects, deepCloneObject } from './object.js'
+import { deepMergeObjects } from './object.js'
 import { getOptions } from './options.js'
 
 // Merge objects.
@@ -55,7 +56,7 @@ export default function declarativeMerge(firstValue, secondValue, options) {
 // This function is called recursively, i.e. it is passed down as argument
 const mergeValues = function ({ firstValue, secondValue, currentMerge, key }) {
   if (!isPlainObj(secondValue)) {
-    return secondValue
+    return cloneSecondValue(secondValue, mergeValues, key)
   }
 
   const {
@@ -96,7 +97,7 @@ const mergeSecondObject = function ({
   }
 
   if (!isPlainObj(firstValue)) {
-    return deepCloneObject(secondObject, mergeValues, key)
+    return cloneSecondValue(secondObject, mergeValues, key)
   }
 
   return deepMergeObjects({

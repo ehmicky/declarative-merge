@@ -11,16 +11,27 @@ const notEnumSymObj = Object.defineProperty({}, notEnumSym, { value: 1 })
 // This also test that both arguments' plain objects are deeply cloned
 each(
   [
-    { first: {}, second: { aa: notEnumObj } },
-    { first: { aa: notEnumObj }, second: {} },
-    { first: {}, second: { aa: notEnumObj, _merge: 'set' } },
+    { first: {}, second: { aa: [notEnumObj] } },
+    { first: { aa: [notEnumObj] }, second: {} },
   ],
   ({ title }, { first, second }) => {
     test(`Non-enumerable properties are not kept in result | ${title}`, (t) => {
-      t.false('notEnum' in declarativeMerge(first, second).aa)
+      t.false('notEnum' in declarativeMerge(first, second).aa[0])
     })
   },
 )
+
+test('_merge property is removed from second argument', (t) => {
+  t.false('_merge' in declarativeMerge({}, { aa: [{ _merge: 'deep' }] }).aa[0])
+})
+
+test('_merge property is resolved from second argument', (t) => {
+  t.is(declarativeMerge({}, { aa: [{ _merge: 'delete' }] }).aa.length, 0)
+})
+
+test('_merge property is not removed from first argument', (t) => {
+  t.true('_merge' in declarativeMerge({ aa: [{ _merge: 'deep' }] }, {}).aa[0])
+})
 
 each(
   [
