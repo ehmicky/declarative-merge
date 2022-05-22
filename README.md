@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ehmicky/design/main/declarative-merge/declarative-merge.svg" width="500"/>
+<img src="https://raw.githubusercontent.com/ehmicky/design/main/declarative-merge/declarative-merge.svg" width="600"/>
 
 [![Codecov](https://img.shields.io/codecov/c/github/ehmicky/declarative-merge.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/declarative-merge)
 [![Build](https://github.com/ehmicky/declarative-merge/workflows/Build/badge.svg)](https://github.com/ehmicky/declarative-merge/actions)
