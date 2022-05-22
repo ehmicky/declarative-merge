@@ -33,7 +33,7 @@ const cloneFirstObject = function (value) {
 }
 
 // The `secondValue` performed the full algorithm so that `_merge` properties
-// are resolved too
+// and array updates objects are resolved too
 export const cloneSecondValue = function (value, mergeValues, key) {
   if (Array.isArray(value)) {
     const newArray = value.map((item) =>
