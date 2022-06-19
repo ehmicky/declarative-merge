@@ -118,7 +118,7 @@ export default function declarativeMerge<T, KeyOpt extends Key = DefaultKey>(
 // See https://github.com/microsoft/TypeScript/issues/14829
 type NoInfer<T> = T extends any ? T : T
 
-interface Options<KeyOpt> {
+export interface Options<KeyOpt extends Key = DefaultKey> {
   /**
    * Name of the property used to specify the merge mode.
    * Symbols can be useful to prevent injections when the input is user-provided.

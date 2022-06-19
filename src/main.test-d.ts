@@ -1,5 +1,10 @@
-import declarativeMerge from 'declarative-merge'
-import { expectType, expectError } from 'tsd'
+import declarativeMerge, { Options } from 'declarative-merge'
+import {
+  expectType,
+  expectError,
+  expectAssignable,
+  expectNotAssignable,
+} from 'tsd'
 
 const firstValue = { a: 1 }
 expectType<typeof firstValue>(declarativeMerge(firstValue, {}))
@@ -41,9 +46,14 @@ declarativeMerge(
 )
 declarativeMerge({ _merge: 2 }, { _merge: 2 }, { key: 'key' })
 
+expectAssignable<Options>({})
+expectNotAssignable<Options>(true)
 expectError(declarativeMerge({}, {}, true))
+expectNotAssignable<Options>({ unknownOption: true })
 expectError(declarativeMerge({}, {}, { unknownOption: true }))
+expectNotAssignable<Options>({ key: 0 })
 expectError(declarativeMerge({}, {}, { key: 0 }))
+
 expectError(declarativeMerge({ a: 1 }, { b: 2 }))
 expectError(declarativeMerge({ c: { a: 1 } }, { c: { b: 2 } }))
 expectError(declarativeMerge({ a: [1] }, { a: [true] }))
