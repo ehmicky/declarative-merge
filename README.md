@@ -1,7 +1,6 @@
 <img src="https://raw.githubusercontent.com/ehmicky/design/main/declarative-merge/declarative-merge.svg" width="600"/>
 
 [![Codecov](https://img.shields.io/codecov/c/github/ehmicky/declarative-merge.svg?label=tested&logo=codecov)](https://codecov.io/gh/ehmicky/declarative-merge)
-[![Build](https://github.com/ehmicky/declarative-merge/workflows/Build/badge.svg)](https://github.com/ehmicky/declarative-merge/actions)
 [![Node](https://img.shields.io/node/v/declarative-merge.svg?logo=node.js)](https://www.npmjs.com/package/declarative-merge)
 [![Twitter](https://img.shields.io/badge/%E2%80%8B-twitter-4cc61e.svg?logo=twitter)](https://twitter.com/intent/follow?screen_name=ehmicky)
 [![Medium](https://img.shields.io/badge/%E2%80%8B-medium-4cc61e.svg?logo=medium)](https://medium.com/@ehmicky)
