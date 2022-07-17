@@ -50,7 +50,7 @@
     "set-array": "^3.2.1"
   },
   "devDependencies": {
-    "@ehmicky/dev-tasks": "^1.0.80",
+    "@ehmicky/dev-tasks": "^1.0.81",
     "test-each": "^5.1.1",
     "tsd": "^0.22.0"
   },
