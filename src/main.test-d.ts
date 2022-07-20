@@ -1,10 +1,11 @@
-import declarativeMerge, { Options } from 'declarative-merge'
 import {
   expectType,
   expectError,
   expectAssignable,
   expectNotAssignable,
 } from 'tsd'
+
+import declarativeMerge, { Options } from './main.js'
 
 const firstValue = { a: 1 }
 expectType<typeof firstValue>(declarativeMerge(firstValue, {}))
