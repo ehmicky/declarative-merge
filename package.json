@@ -35,7 +35,7 @@
     "shallow"
   ],
   "license": "Apache-2.0",
-  "homepage": "https://bit.ly/3x1NmGv",
+  "homepage": "https://www.github.com/ehmicky/declarative-merge",
   "repository": "ehmicky/declarative-merge",
   "bugs": {
     "url": "https://github.com/ehmicky/declarative-merge/issues"
