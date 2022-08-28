@@ -50,7 +50,7 @@
     "set-array": "^3.3.0"
   },
   "devDependencies": {
-    "@ehmicky/dev-tasks": "^1.0.85",
+    "@ehmicky/dev-tasks": "^1.0.86",
     "test-each": "^5.3.0"
   },
   "engines": {
