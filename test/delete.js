@@ -6,9 +6,7 @@ each(
   [
     {
       first: { aa: 1, bb: 2, cc: 3 },
-      // eslint-disable-next-line unicorn/no-null
       second: { aa: undefined, bb: null },
-      // eslint-disable-next-line unicorn/no-null
       result: { aa: undefined, bb: null, cc: 3 },
     },
     {
