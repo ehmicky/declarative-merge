@@ -1,3 +1,9 @@
+# 2.3.0
+
+## Features
+
+- Reduce npm package size
+
 # 2.2.1
 
 ## Bug fixes
