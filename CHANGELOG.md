@@ -1,3 +1,7 @@
+# 2.2.0
+
+- Switch to MIT license
+
 # 2.1.0
 
 ## Features
