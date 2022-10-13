@@ -1,3 +1,9 @@
+# 2.2.1
+
+## Bug fixes
+
+- Fix `package.json`
+
 # 2.2.0
 
 - Switch to MIT license
