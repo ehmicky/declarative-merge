@@ -1,3 +1,9 @@
+# 2.3.0
+
+## Features
+
+- Add browser support
+
 # 2.2.2
 
 ## Features
