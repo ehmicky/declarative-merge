@@ -5,7 +5,7 @@ import {
   expectNotAssignable,
 } from 'tsd'
 
-import declarativeMerge, { Options } from './main.js'
+import declarativeMerge, { Options } from 'declarative-merge'
 
 const firstValue = { a: 1 }
 expectType<typeof firstValue>(declarativeMerge(firstValue, {}))
