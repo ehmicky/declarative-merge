@@ -218,8 +218,9 @@ declarativeMerge({ one: true }, { one: { 0: 'X', 2: 'Z' } }) // { one: ['X', und
 npm install declarative-merge
 ```
 
-This package works in both Node.js >=14.18.0 and browsers. It is an ES module
-and must be loaded using
+This package works in both Node.js >=14.18.0 and
+[browsers](https://raw.githubusercontent.com/ehmicky/dev-tasks/main/src/tasks/build/browserslist).
+It is an ES module and must be loaded using
 [an `import` or `import()` statement](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c),
 not `require()`.
 
