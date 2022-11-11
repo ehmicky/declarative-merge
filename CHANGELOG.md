@@ -1,3 +1,9 @@
+# 2.4.0
+
+## Features
+
+- Improve tree-shaking support
+
 # 2.3.0
 
 ## Features
