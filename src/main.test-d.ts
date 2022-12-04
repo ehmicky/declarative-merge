@@ -1,9 +1,4 @@
-import {
-  expectType,
-  expectError,
-  expectAssignable,
-  expectNotAssignable,
-} from 'tsd'
+import { expectType, expectAssignable, expectNotAssignable } from 'tsd'
 
 import declarativeMerge, { Options } from 'declarative-merge'
 
@@ -49,24 +44,35 @@ declarativeMerge({ _merge: 2 }, { _merge: 2 }, { key: 'key' })
 
 expectAssignable<Options>({})
 expectNotAssignable<Options>(true)
-expectError(declarativeMerge({}, {}, true))
+// @ts-expect-error
+declarativeMerge({}, {}, true)
 expectNotAssignable<Options>({ unknownOption: true })
-expectError(declarativeMerge({}, {}, { unknownOption: true }))
+// @ts-expect-error
+declarativeMerge({}, {}, { unknownOption: true })
 expectNotAssignable<Options>({ key: 0 })
-expectError(declarativeMerge({}, {}, { key: 0 }))
+// @ts-expect-error
+declarativeMerge({}, {}, { key: 0 })
 
-expectError(declarativeMerge({ a: 1 }, { b: 2 }))
-expectError(declarativeMerge({ c: { a: 1 } }, { c: { b: 2 } }))
-expectError(declarativeMerge({ a: [1] }, { a: [true] }))
-expectError(declarativeMerge({ a: [1] }, { a: { '1': true } }))
-expectError(declarativeMerge({ a: 1 }, { a: 2, _merge: 2 }))
-expectError(declarativeMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 2 }))
-expectError(declarativeMerge({}, { key: 2 }, { key: 'key' }))
-expectError(declarativeMerge({ a: [{}] }, { a: [{ key: 2 }] }, { key: 'key' }))
-expectError(
-  declarativeMerge(
-    { a: [{}] },
-    { a: [{ [keySymbol]: 2 }] },
-    { [keySymbol]: 'key' },
-  ),
+// @ts-expect-error
+declarativeMerge({ a: 1 }, { b: 2 })
+// @ts-expect-error
+declarativeMerge({ c: { a: 1 } }, { c: { b: 2 } })
+// @ts-expect-error
+declarativeMerge({ a: [1] }, { a: [true] })
+// @ts-expect-error
+declarativeMerge({ a: [1] }, { a: { '1': true } })
+// @ts-expect-error
+declarativeMerge({ a: 1 }, { a: 2, _merge: 2 })
+// @ts-expect-error
+declarativeMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 2 })
+// @ts-expect-error
+declarativeMerge({}, { key: 2 }, { key: 'key' })
+// @ts-expect-error
+declarativeMerge({ a: [{}] }, { a: [{ key: 2 }] }, { key: 'key' })
+
+declarativeMerge(
+  { a: [{}] },
+  // @ts-expect-error
+  { a: [{ [keySymbol]: 2 }] },
+  { [keySymbol]: 'key' },
 )
