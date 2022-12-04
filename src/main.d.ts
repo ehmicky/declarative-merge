@@ -116,7 +116,7 @@ export default function declarativeMerge<T, KeyOpt extends Key = DefaultKey>(
 
 // Ensure `T` is not inferred.
 // See https://github.com/microsoft/TypeScript/issues/14829
-type NoInfer<T> = T extends any ? T : T
+type NoInfer<T> = T extends unknown ? T : T
 
 export interface Options<KeyOpt extends Key = DefaultKey> {
   /**
