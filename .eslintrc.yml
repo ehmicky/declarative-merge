@@ -1,5 +1,1 @@
 extends: '@ehmicky/eslint-config/.eslintrc.yml'
-overrides:
-  - files: [src/**/*.test-d.ts]
-    rules:
-      id-length: 0
