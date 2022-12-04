@@ -1,4 +1,4 @@
-import { Updates } from 'set-array'
+import type { Updates } from 'set-array'
 
 /**
  * Merge `firstValue` and `secondValue`.

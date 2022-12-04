@@ -15,7 +15,9 @@ declarativeMerge({ a: 1 }, { a: 2, _merge: 'set' })
 declarativeMerge({ a: 1 }, { a: 2, _merge: 'delete' })
 declarativeMerge({ a: 1, _merge: 1 }, { a: 2, _merge: 'set' })
 declarativeMerge({ b: { a: 1 } }, { b: { a: 2, _merge: 'set' } })
+// eslint-disable-next-line no-underscore-dangle
 expectType<number>(declarativeMerge({ a: 1, _merge: 2 }, {})._merge)
+// eslint-disable-next-line no-underscore-dangle
 expectType<number>(declarativeMerge({ a: 1, b: { _merge: 2 } }, {}).b._merge)
 declarativeMerge({ a: [1] }, {})
 declarativeMerge({ a: [1] }, { a: [2] })
