@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import test from 'ava'
 import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
@@ -154,4 +153,3 @@ each(
 test('The "key" option is validated', (t) => {
   t.throws(() => declarativeMerge({}, {}, { key: 1 }))
 })
-/* eslint-enable max-lines */
