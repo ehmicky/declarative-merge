@@ -8,7 +8,7 @@ import { getEnumKeys } from './enum.js'
 //  - Deep cloning might be expected from a deep merge by some users
 //  - This ensures the algorithm is performed recursively, so that
 //    non-enumerable and inherited properties are removed
-export const cloneFirstValue = function (value) {
+export const cloneFirstValue = (value) => {
   if (Array.isArray(value)) {
     return value.map(cloneFirstValue)
   }
@@ -20,7 +20,7 @@ export const cloneFirstValue = function (value) {
   return value
 }
 
-const cloneFirstObject = function (value) {
+const cloneFirstObject = (value) => {
   const newObject = {}
 
   // eslint-disable-next-line fp/no-loops
@@ -34,7 +34,7 @@ const cloneFirstObject = function (value) {
 
 // The `secondValue` performed the full algorithm so that `_merge` properties
 // and array updates objects are resolved too
-export const cloneSecondValue = function (value, mergeValues, key) {
+export const cloneSecondValue = (value, mergeValues, key) => {
   if (Array.isArray(value)) {
     const newArray = value.map((item) =>
       cloneSecondValue(item, mergeValues, key),

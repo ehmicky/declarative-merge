@@ -7,9 +7,8 @@ import { removeDeletedItems } from './delete.js'
 // Empty objects are not considered array `updates` objects.
 //  - Reason: it is ambiguous whether they are meant this way, especially when
 //    the `firstValue` is `undefined`
-export const shouldPatchArray = function (secondObject) {
-  return isUpdatesObject(secondObject) && Object.keys(secondObject).length !== 0
-}
+export const shouldPatchArray = (secondObject) =>
+  isUpdatesObject(secondObject) && Object.keys(secondObject).length !== 0
 
 // Patch an array using an `updates` object.
 // When the `firstValue` is not an array (including `undefined`), an empty array
@@ -19,13 +18,13 @@ export const shouldPatchArray = function (secondObject) {
 //    optionally be an array or not
 //  - This allows knowing whether the `secondValue` is an `updates` object
 //    without having to check the `firstValue`, i.e. this is less ambiguous
-export const patchArray = function ({
+export const patchArray = ({
   firstValue,
   updates,
   childMerge,
   mergeValues,
   key,
-}) {
+}) => {
   const array = Array.isArray(firstValue) ? firstValue : []
   const newArray = setArray(array, updates, {
     merge: (firstChild, secondChild) =>

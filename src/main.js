@@ -44,7 +44,7 @@ import { getOptions } from './options.js'
 //  - Sibling and child properties will be ignored
 //  - Users can still set `undefined` or `null` values, which remains a separate
 //    operation from deletion
-export default function declarativeMerge(firstValue, secondValue, options) {
+const declarativeMerge = (firstValue, secondValue, options) => {
   const { key } = getOptions(options)
   const mergedValue = mergeValues({
     firstValue,
@@ -55,8 +55,10 @@ export default function declarativeMerge(firstValue, secondValue, options) {
   return isDeleted(mergedValue) ? undefined : mergedValue
 }
 
+export default declarativeMerge
+
 // This function is called recursively, i.e. it is passed down as argument
-const mergeValues = function ({ firstValue, secondValue, currentMerge, key }) {
+const mergeValues = ({ firstValue, secondValue, currentMerge, key }) => {
   if (!isPlainObj(secondValue)) {
     return cloneSecondValue(secondValue, mergeValues, key)
   }
@@ -81,13 +83,13 @@ const mergeValues = function ({ firstValue, secondValue, currentMerge, key }) {
   })
 }
 
-const mergeSecondObject = function ({
+const mergeSecondObject = ({
   firstValue,
   secondObject,
   currentMerge,
   childMerge,
   key,
-}) {
+}) => {
   if (shouldPatchArray(secondObject)) {
     return patchArray({
       firstValue,

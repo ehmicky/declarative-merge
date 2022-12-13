@@ -18,7 +18,7 @@ import { getDeleted } from './delete.js'
 //    name does not fit well
 //  - Symbols can be used to prevent any user injection of that special
 //    attribute
-export const parseMergeFlag = function (secondObject, currentMerge, key) {
+export const parseMergeFlag = (secondObject, currentMerge, key) => {
   if (!(key in secondObject)) {
     return { currentMerge, childMerge: currentMerge, secondObject }
   }
@@ -43,7 +43,7 @@ export const parseMergeFlag = function (secondObject, currentMerge, key) {
   }
 }
 
-const validateMergeFlag = function (mergeFlag, key) {
+const validateMergeFlag = (mergeFlag, key) => {
   if (!ALLOWED_MERGES.has(mergeFlag)) {
     const allowedMerges = [...ALLOWED_MERGES].map(quoteString).join(', ')
     throw new TypeError(
@@ -52,9 +52,7 @@ const validateMergeFlag = function (mergeFlag, key) {
   }
 }
 
-const quoteString = function (value) {
-  return `"${value}"`
-}
+const quoteString = (value) => `"${value}"`
 
 const DEEP_MERGE = 'deep'
 const SHALLOW_MERGE = 'shallow'

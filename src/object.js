@@ -3,14 +3,14 @@ import { isDeleted } from './delete.js'
 import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
 
 // Merge two objects deeply.
-export const deepMergeObjects = function ({
+export const deepMergeObjects = ({
   firstObject,
   secondObject,
   currentMerge,
   childMerge,
   mergeValues,
   key,
-}) {
+}) => {
   const newObject = {}
 
   if (currentMerge) {
@@ -34,7 +34,7 @@ export const deepMergeObjects = function ({
 // set, even though they will be overridden, to keep the keys order.
 //  - However, they are not cloned, as a performance optimization since they
 //    will be overridden anyway
-const setFirstProps = function (firstObject, secondObject, newObject) {
+const setFirstProps = (firstObject, secondObject, newObject) => {
   // eslint-disable-next-line fp/no-loops
   for (const firstKey of getEnumKeys(firstObject)) {
     // eslint-disable-next-line fp/no-mutation, no-param-reassign
@@ -45,14 +45,14 @@ const setFirstProps = function (firstObject, secondObject, newObject) {
 }
 
 // Properties from `secondObject` are merged to the `firstObject`, recursively
-const setSecondProps = function ({
+const setSecondProps = ({
   firstObject,
   secondObject,
   newObject,
   childMerge,
   mergeValues,
   key,
-}) {
+}) => {
   // eslint-disable-next-line fp/no-loops
   for (const secondKey of getEnumKeys(secondObject)) {
     const firstValue = getEnumValue(firstObject, secondKey)
