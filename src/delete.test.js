@@ -1,7 +1,7 @@
 import test from 'ava'
+import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
-import declarativeMerge from 'declarative-merge'
 
 each(
   [

@@ -1,7 +1,7 @@
 import test from 'ava'
+import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
-import declarativeMerge from 'declarative-merge'
 
 // eslint-disable-next-line fp/no-mutating-methods
 const notEnumObj = Object.defineProperty({}, 'notEnum', { value: 1 })
