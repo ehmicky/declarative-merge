@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
-import declarativeMerge, { type Options } from 'declarative-merge'
 import { expectType, expectAssignable, expectNotAssignable } from 'tsd'
+
+import declarativeMerge, { type Options } from 'declarative-merge'
 
 const firstValue = { a: 1 }
 expectType<typeof firstValue>(declarativeMerge(firstValue, {}))
