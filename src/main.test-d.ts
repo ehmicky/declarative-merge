@@ -2,7 +2,6 @@
 import declarativeMerge, { type Options } from 'declarative-merge'
 import { expectType, expectAssignable, expectNotAssignable } from 'tsd'
 
-
 const firstValue = { a: 1 }
 expectType<typeof firstValue>(declarativeMerge(firstValue, {}))
 

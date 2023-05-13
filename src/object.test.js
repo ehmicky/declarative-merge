@@ -2,7 +2,6 @@ import test from 'ava'
 import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
-
 each(
   [
     { first: { aa: 1 }, second: { bb: 2 }, result: { aa: 1, bb: 2 } },

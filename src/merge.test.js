@@ -2,7 +2,6 @@ import test from 'ava'
 import declarativeMerge from 'declarative-merge'
 import { each } from 'test-each'
 
-
 const KEY_SYM = Symbol('_merge')
 
 each(
