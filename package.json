@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "is-plain-obj": "^4.1.0",
-    "set-array": "^3.8.0"
+    "set-array": "^4.0.0"
   },
   "devDependencies": {
     "@ehmicky/dev-tasks": "^2.0.87",
