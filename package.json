@@ -42,7 +42,10 @@
   ],
   "license": "MIT",
   "homepage": "https://www.github.com/ehmicky/declarative-merge",
-  "repository": "ehmicky/declarative-merge",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehmicky/declarative-merge.git"
+  },
   "bugs": {
     "url": "https://github.com/ehmicky/declarative-merge/issues"
   },
