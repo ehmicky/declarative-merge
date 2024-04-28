@@ -58,7 +58,7 @@
     "set-array": "^5.0.0"
   },
   "devDependencies": {
-    "@ehmicky/dev-tasks": "^2.0.105",
+    "@ehmicky/dev-tasks": "^2.0.106",
     "test-each": "^7.0.0"
   },
   "engines": {
