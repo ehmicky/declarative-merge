@@ -154,10 +154,10 @@ type DefaultKey = '_merge'
 type SecondValue<T, KeyOpt extends Key> = T extends (infer ArrayItem)[]
   ? SecondValue<ArrayItem, KeyOpt>[] | Updates<SecondValue<ArrayItem, KeyOpt>>
   : T extends object
-  ? {
-      [Prop in Exclude<keyof T, KeyOpt>]?: SecondValue<T[Prop], KeyOpt>
-    } & { [KeyProp in KeyOpt]?: MergeMode }
-  : T
+    ? {
+        [Prop in Exclude<keyof T, KeyOpt>]?: SecondValue<T[Prop], KeyOpt>
+      } & { [KeyProp in KeyOpt]?: MergeMode }
+    : T
 
 /**
  * Modifies the merge mode.
