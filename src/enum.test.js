@@ -3,10 +3,8 @@ import { each } from 'test-each'
 
 import declarativeMerge from 'declarative-merge'
 
-// eslint-disable-next-line fp/no-mutating-methods
 const notEnumObj = Object.defineProperty({}, 'notEnum', { value: 1 })
 const notEnumSym = Symbol('notEnum')
-// eslint-disable-next-line fp/no-mutating-methods
 const notEnumSymObj = Object.defineProperty({}, notEnumSym, { value: 1 })
 
 // This also test that both arguments' plain objects are deeply cloned
