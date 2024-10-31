@@ -1,6 +1,6 @@
 import isPlainObj from 'is-plain-obj'
 
-import { shouldPatchArray, patchArray } from './array.js'
+import { patchArray, shouldPatchArray } from './array.js'
 import { cloneSecondValue } from './clone.js'
 import { isDeleted } from './delete.js'
 import { DEFAULT_MERGE, parseMergeFlag } from './merge.js'

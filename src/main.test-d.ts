@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
-import { expectType, expectAssignable, expectNotAssignable } from 'tsd'
+import { expectAssignable, expectNotAssignable, expectType } from 'tsd'
 
 import declarativeMerge, { type Options } from 'declarative-merge'
 

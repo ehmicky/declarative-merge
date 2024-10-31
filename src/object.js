@@ -1,6 +1,6 @@
 import { cloneFirstValue } from './clone.js'
 import { isDeleted } from './delete.js'
-import { isEnum, getEnumKeys, getEnumValue } from './enum.js'
+import { getEnumKeys, getEnumValue, isEnum } from './enum.js'
 
 // Merge two objects deeply.
 export const deepMergeObjects = ({
